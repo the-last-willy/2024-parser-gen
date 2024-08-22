@@ -1,0 +1,31 @@
+Grammar ::=
+
+rule ::= symbol "::=" expression
+
+symbol ::= [a-zA-z_-]+
+
+expr ::= alternation
+
+alternation ::= concatenation ( "|" alternation )?
+
+concatenation ::= term concatenation?
+
+term ::= "(" expr ")" | string | range
+
+
+
+zeroOrOne ::= term "?"
+
+zeroOrMore ::= term "*"
+
+oneOrMore ::= term "+"
+
+string ::= '"' chars '"' | "'" chars "'"
+
+any ::= "[" "^"? (range) "]"
+
+range ::= char "-" char
+
+enumeration ::=
+
+comment ::= "/*" ... "*/"

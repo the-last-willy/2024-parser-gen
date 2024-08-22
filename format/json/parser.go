@@ -3,21 +3,22 @@ package json
 import (
 	"parsium/format/mckeeman"
 	"parsium/parse"
+	"parsium/tree"
 )
 
 type Parser struct {
-	internal *mckeeman.Parser
+	internal *mckeeman.BetterParser
 }
 
 func NewParser() *Parser {
-	mkParser := mckeeman.NewParser()
+	mkParser := mckeeman.NewBetterParser()
 	grammar := mkParser.Parse(mckeemanGrammar)
 
 	return &Parser{
-		internal: mckeeman.NewParserForGrammar(grammar),
+		internal: mckeeman.NewBetterParserForGrammar(grammar, mckeemanGrammar),
 	}
 }
 
-func (p *Parser) Parse(s string) parse.DataTree {
+func (p *Parser) Parse(s string) tree.Tree[parse.TreeData] {
 	return p.internal.Parse(s)
 }

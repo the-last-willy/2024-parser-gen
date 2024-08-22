@@ -2,8 +2,43 @@ package parse
 
 import (
 	"fmt"
+	"parsium/tree"
 	"strings"
 )
+
+type TreeData struct {
+	Type string
+
+	First int
+	Last  int
+}
+
+func HasTypePred(ty string) func(tree.Tree[TreeData]) bool {
+	return func(tr tree.Tree[TreeData]) bool {
+		return tr.DataOf(tr.Root()).Type == ty
+	}
+}
+
+func DataOf(t tree.Tree[TreeData]) TreeData {
+	return t.DataOf(t.Root())
+}
+
+func TextOf(t tree.Tree[TreeData], src string) string {
+	d := DataOf(t)
+	return src[d.First:d.Last]
+}
+
+func TypeOf(t tree.Tree[TreeData]) string {
+	return t.DataOf(t.Root()).Type
+}
+
+func FindAllWithType(t tree.Tree[TreeData], ty string) []tree.Node {
+	return tree.FindAll(t, HasTypePred(ty))
+}
+
+func FindFirstWithType(t tree.Tree[TreeData], ty string) *tree.Node {
+	return tree.FindFirst(t, HasTypePred(ty))
+}
 
 type Tree struct {
 	Type string
@@ -60,7 +95,7 @@ func (t *Tree) GetData(store string) string {
 		return store[t.First:t.Last]
 	}
 	if store[t.First:t.Last] != t.Data {
-		panic("stored Data are different")
+		panic("stored data are different")
 	}
 	return t.Data
 }
@@ -71,7 +106,7 @@ func (t *Tree) PrintIndent(store string, indent int) {
 	if len(t.Children) == 0 {
 		data = store[t.First:t.Last]
 		data = strings.ReplaceAll(data, "\n", `\n`)
-		//Data = strings.ReplaceAll(Data, `"`, `\"`)
+		//data = strings.ReplaceAll(data, `"`, `\"`)
 		data = ` = '` + data + `'`
 	}
 	fmt.Printf("%s(%d, %d) %s%s\n", id, t.First, t.Last, t.Type, data)
@@ -87,54 +122,16 @@ func (t *Tree) TraverseAll(do func(*Tree)) {
 	}
 }
 
-// McKeeman specific
-
-func (t *Tree) McKeemanSimplified(src string) []*Tree {
-	cp := *t
-
-	//if t.Type == "codepoint" {
-	//	cp.Data = src[cp.First:cp.Last]
-	//	cp.Children = []*Tree{}
-	//	return []*Tree{&cp}
-	//}
-	if t.Type == "indentation" {
-		return []*Tree{}
-	}
-	//if t.Type == "literal" {
-	//	cp.Data = src[cp.First:cp.Last]
-	//	cp.Children = []*Tree{}
-	//	return []*Tree{&cp}
-	//}
-	if t.Type == "name" {
-		cp.Data = src[cp.First:cp.Last]
-		cp.Children = []*Tree{}
-		return []*Tree{&cp}
-	}
-	if t.Type == "newline" {
-		return []*Tree{}
-	}
-	if t.Type == "space" {
-		return []*Tree{}
-	}
-
-	simplified := []*Tree{}
+func (t *Tree) ToTreeNode(tr tree.Tree[TreeData]) tree.Node {
+	children := []tree.Node{}
 	for _, child := range t.Children {
-		simplified = append(simplified, child.McKeemanSimplified(src)...)
+		children = append(children, child.ToTreeNode(tr))
 	}
-
-	//if t.Type == "alternatives" {
-	//	return simplified
-	//}
-	//if t.Type == "item" {
-	//	return simplified
-	//}
-	//if t.Type == "items" {
-	//	return simplified
-	//}
-	//if t.Type == "rules" {
-	//	return simplified
-	//}
-
-	cp.Children = simplified
-	return []*Tree{&cp}
+	return tr.NewNode(
+		TreeData{
+			Type:  t.Type,
+			First: t.First,
+			Last:  t.Last,
+		},
+		children)
 }

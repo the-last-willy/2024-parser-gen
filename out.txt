@@ -1,426 +1,2920 @@
-GOROOT=/home/willy/sdk/go1.23.0 #gosetup
-GOPATH=/home/willy/go #gosetup
-/home/willy/sdk/go1.23.0/bin/go build -o /home/willy/.cache/JetBrains/GoLand2024.2/tmp/GoLand/___go_build_sandbox parsium/sandbox #gosetup
-/home/willy/.cache/JetBrains/GoLand2024.2/tmp/GoLand/___go_build_sandbox
-(0, 953) grammar
-  (0, 953) rules
-    (0, 18) rule
-      (0, 7) name = 'grammar'
-      (8, 18) alternatives
-        (8, 18) alternative
-          (12, 17) items
-            (12, 17) item
-              (12, 17) name = 'rules'
-    (19, 36) rule
-      (19, 24) name = 'space'
-      (25, 36) alternatives
-        (25, 36) alternative
-          (29, 35) items
-            (29, 35) item
-              (29, 35) literal
-                (29, 35) singleton
-                  (30, 34) codepoint
-                    (30, 34) hexcode
-                      (30, 31) hex = '0'
-                      (31, 32) hex = '0'
-                      (32, 33) hex = '2'
-                      (33, 34) hex = '0'
-    (37, 56) rule
-      (37, 44) name = 'newline'
-      (45, 56) alternatives
-        (45, 56) alternative
-          (49, 55) items
-            (49, 55) item
-              (49, 55) literal
-                (49, 55) singleton
-                  (50, 54) codepoint
-                    (50, 54) hexcode
-                      (50, 51) hex = '0'
-                      (51, 52) hex = '0'
-                      (52, 53) hex = '0'
-                      (53, 54) hex = 'A'
-    (57, 89) rule
-      (57, 61) name = 'name'
-      (62, 89) alternatives
-        (62, 78) alternative
-          (66, 77) items
-            (66, 72) item
-              (66, 72) name = 'letter'
-            (73, 77) item
-              (73, 77) name = 'name'
-        (78, 89) alternative
-          (82, 88) items
-            (82, 88) item
-              (82, 88) name = 'letter'
-    (90, 133) rule
-      (90, 96) name = 'letter'
-      (97, 133) alternatives
-        (97, 111) alternative
-          (101, 110) items
-            (101, 110) item
-              (101, 110) literal
-                (101, 110) range
-                  (101, 104) singleton
-                    (102, 103) codepoint = 'a'
-                  (107, 110) singleton
-                    (108, 109) codepoint = 'z'
-                (110, 110) exclude = ''
-        (111, 125) alternative
-          (115, 124) items
-            (115, 124) item
-              (115, 124) literal
-                (115, 124) range
-                  (115, 118) singleton
-                    (116, 117) codepoint = 'A'
-                  (121, 124) singleton
-                    (122, 123) codepoint = 'Z'
-                (124, 124) exclude = ''
-        (125, 133) alternative
-          (129, 132) items
-            (129, 132) item
-              (129, 132) literal
-                (129, 132) singleton
-                  (130, 131) codepoint = '_'
-    (134, 174) rule
-      (134, 145) name = 'indentation'
-      (146, 174) alternatives
-        (146, 174) alternative
-          (150, 173) items
-            (150, 155) item
-              (150, 155) name = 'space'
-            (156, 161) item
-              (156, 161) name = 'space'
-            (162, 167) item
-              (162, 167) name = 'space'
-            (168, 173) item
-              (168, 173) name = 'space'
-    (175, 213) rule
-      (175, 180) name = 'rules'
-      (181, 213) alternatives
-        (181, 204) alternative
-          (185, 203) items
-            (185, 189) item
-              (185, 189) name = 'rule'
-            (190, 197) item
-              (190, 197) name = 'newline'
-            (198, 203) item
-              (198, 203) name = 'rules'
-        (204, 213) alternative
-          (208, 212) items
-            (208, 212) item
-              (208, 212) name = 'rule'
-    (214, 261) rule
-      (214, 218) name = 'rule'
-      (219, 261) alternatives
-        (219, 249) alternative
-          (223, 248) items
-            (223, 227) item
-              (223, 227) name = 'name'
-            (228, 235) item
-              (228, 235) name = 'newline'
-            (236, 248) item
-              (236, 248) name = 'alternatives'
-        (249, 261) alternative
-          (253, 260) items
-            (253, 260) item
-              (253, 260) name = 'nothing'
-    (262, 309) rule
-      (262, 269) name = 'nothing'
-      (270, 309) alternatives
-        (270, 302) alternative
-          (274, 301) items
-            (274, 285) item
-              (274, 285) name = 'indentation'
-            (286, 289) item
-              (286, 289) literal
-                (286, 289) singleton
-                  (287, 288) codepoint = '"'
-            (290, 293) item
-              (290, 293) literal
-                (290, 293) singleton
-                  (291, 292) codepoint = '"'
-            (294, 301) item
-              (294, 301) name = 'newline'
-        (302, 309) alternative
-          (306, 308) items
-            (306, 308) item
-              (306, 308) literal
-                (307, 307) characters = ''
-    (310, 368) rule
-      (310, 322) name = 'alternatives'
-      (323, 368) alternatives
-        (323, 352) alternative
-          (327, 351) items
-            (327, 338) item
-              (327, 338) name = 'alternative'
-            (339, 351) item
-              (339, 351) name = 'alternatives'
-        (352, 368) alternative
-          (356, 367) items
-            (356, 367) item
-              (356, 367) name = 'alternative'
-    (369, 411) rule
-      (369, 380) name = 'alternative'
-      (381, 411) alternatives
-        (381, 411) alternative
-          (385, 410) items
-            (385, 396) item
-              (385, 396) name = 'indentation'
-            (397, 402) item
-              (397, 402) name = 'items'
-            (403, 410) item
-              (403, 410) name = 'newline'
-    (412, 448) rule
-      (412, 417) name = 'items'
-      (418, 448) alternatives
-        (418, 439) alternative
-          (422, 438) items
-            (422, 426) item
-              (422, 426) name = 'item'
-            (427, 432) item
-              (427, 432) name = 'space'
-            (433, 438) item
-              (433, 438) name = 'items'
-        (439, 448) alternative
-          (443, 447) items
-            (443, 447) item
-              (443, 447) name = 'item'
-    (449, 475) rule
-      (449, 453) name = 'item'
-      (454, 475) alternatives
-        (454, 466) alternative
-          (458, 465) items
-            (458, 465) item
-              (458, 465) name = 'literal'
-        (466, 475) alternative
-          (470, 474) items
-            (470, 474) item
-              (470, 474) name = 'name'
-    (476, 539) rule
-      (476, 483) name = 'literal'
-      (484, 539) alternatives
-        (484, 498) alternative
-          (488, 497) items
-            (488, 497) item
-              (488, 497) name = 'singleton'
-        (498, 516) alternative
-          (502, 515) items
-            (502, 507) item
-              (502, 507) name = 'range'
-            (508, 515) item
-              (508, 515) name = 'exclude'
-        (516, 539) alternative
-          (520, 538) items
-            (520, 523) item
-              (520, 523) literal
-                (520, 523) singleton
-                  (521, 522) codepoint = '"'
-            (524, 534) item
-              (524, 534) name = 'characters'
-            (535, 538) item
-              (535, 538) literal
-                (535, 538) singleton
-                  (536, 537) codepoint = '"'
-    (540, 572) rule
-      (540, 549) name = 'singleton'
-      (550, 572) alternatives
-        (550, 572) alternative
-          (554, 571) items
-            (554, 557) item
-              (554, 557) literal
-                (554, 557) singleton
-                  (555, 556) codepoint = '''
-            (558, 567) item
-              (558, 567) name = 'codepoint'
-            (568, 571) item
-              (568, 571) literal
-                (568, 571) singleton
-                  (569, 570) codepoint = '''
-    (573, 617) rule
-      (573, 582) name = 'codepoint'
-      (583, 617) alternatives
-        (583, 595) alternative
-          (587, 594) items
-            (587, 594) item
-              (587, 594) name = 'hexcode'
-        (595, 617) alternative
-          (599, 616) items
-            (599, 616) item
-              (599, 616) literal
-                (599, 616) range
-                  (599, 605) singleton
-                    (600, 604) codepoint
-                      (600, 604) hexcode
-                        (600, 601) hex = '0'
-                        (601, 602) hex = '0'
-                        (602, 603) hex = '2'
-                        (603, 604) hex = '0'
-                  (608, 616) singleton
-                    (609, 615) codepoint
-                      (609, 615) hexcode
-                        (611, 612) hex = 'F'
-                        (612, 613) hex = 'F'
-                        (613, 614) hex = 'F'
-                        (614, 615) hex = 'F'
-                (616, 616) exclude = ''
-    (618, 695) rule
-      (618, 625) name = 'hexcode'
-      (626, 695) alternatives
-        (626, 651) alternative
-          (630, 650) items
-            (630, 634) item
-              (630, 634) literal
-                (631, 633) characters
-                  (631, 632) character = '1'
-                  (632, 633) character = '0'
-            (635, 638) item
-              (635, 638) name = 'hex'
-            (639, 642) item
-              (639, 642) name = 'hex'
-            (643, 646) item
-              (643, 646) name = 'hex'
-            (647, 650) item
-              (647, 650) name = 'hex'
-        (651, 675) alternative
-          (655, 674) items
-            (655, 658) item
-              (655, 658) name = 'hex'
-            (659, 662) item
-              (659, 662) name = 'hex'
-            (663, 666) item
-              (663, 666) name = 'hex'
-            (667, 670) item
-              (667, 670) name = 'hex'
-            (671, 674) item
-              (671, 674) name = 'hex'
-        (675, 695) alternative
-          (679, 694) items
-            (679, 682) item
-              (679, 682) name = 'hex'
-            (683, 686) item
-              (683, 686) name = 'hex'
-            (687, 690) item
-              (687, 690) name = 'hex'
-            (691, 694) item
-              (691, 694) name = 'hex'
-    (696, 728) rule
-      (696, 699) name = 'hex'
-      (700, 728) alternatives
-        (700, 714) alternative
-          (704, 713) items
-            (704, 713) item
-              (704, 713) literal
-                (704, 713) range
-                  (704, 707) singleton
-                    (705, 706) codepoint = '0'
-                  (710, 713) singleton
-                    (711, 712) codepoint = '9'
-                (713, 713) exclude = ''
-        (714, 728) alternative
-          (718, 727) items
-            (718, 727) item
-              (718, 727) literal
-                (718, 727) range
-                  (718, 721) singleton
-                    (719, 720) codepoint = 'A'
-                  (724, 727) singleton
-                    (725, 726) codepoint = 'F'
-                (727, 727) exclude = ''
-    (729, 775) rule
-      (729, 734) name = 'range'
-      (735, 775) alternatives
-        (735, 775) alternative
-          (739, 774) items
-            (739, 748) item
-              (739, 748) name = 'singleton'
-            (749, 754) item
-              (749, 754) name = 'space'
-            (755, 758) item
-              (755, 758) literal
-                (755, 758) singleton
-                  (756, 757) codepoint = '.'
-            (759, 764) item
-              (759, 764) name = 'space'
-            (765, 774) item
-              (765, 774) name = 'singleton'
-    (776, 863) rule
-      (776, 783) name = 'exclude'
-      (784, 863) alternatives
-        (784, 822) alternative
-          (788, 821) items
-            (788, 793) item
-              (788, 793) name = 'space'
-            (794, 797) item
-              (794, 797) literal
-                (794, 797) singleton
-                  (795, 796) codepoint = '-'
-            (798, 803) item
-              (798, 803) name = 'space'
-            (804, 813) item
-              (804, 813) name = 'singleton'
-            (814, 821) item
-              (814, 821) name = 'exclude'
-        (822, 856) alternative
-          (826, 855) items
-            (826, 831) item
-              (826, 831) name = 'space'
-            (832, 835) item
-              (832, 835) literal
-                (832, 835) singleton
-                  (833, 834) codepoint = '-'
-            (836, 841) item
-              (836, 841) name = 'space'
-            (842, 847) item
-              (842, 847) name = 'range'
-            (848, 855) item
-              (848, 855) name = 'exclude'
-        (856, 863) alternative
-          (860, 862) items
-            (860, 862) item
-              (860, 862) literal
-                (861, 861) characters = ''
-    (864, 914) rule
-      (864, 874) name = 'characters'
-      (875, 914) alternatives
-        (875, 900) alternative
-          (879, 899) items
-            (879, 888) item
-              (879, 888) name = 'character'
-            (889, 899) item
-              (889, 899) name = 'characters'
-        (900, 914) alternative
-          (904, 913) items
-            (904, 913) item
-              (904, 913) name = 'character'
-    (915, 953) rule
-      (915, 924) name = 'character'
-      (925, 953) alternatives
-        (925, 953) alternative
-          (929, 952) items
-            (929, 952) item
-              (929, 952) literal
-                (929, 946) range
-                  (929, 935) singleton
-                    (930, 934) codepoint
-                      (930, 934) hexcode
-                        (930, 931) hex = '0'
-                        (931, 932) hex = '0'
-                        (932, 933) hex = '2'
-                        (933, 934) hex = '0'
-                  (938, 946) singleton
-                    (939, 945) codepoint
-                      (939, 945) hexcode
-                        (941, 942) hex = 'F'
-                        (942, 943) hex = 'F'
-                        (943, 944) hex = 'F'
-                        (944, 945) hex = 'F'
-                (946, 952) exclude
-                  (949, 952) singleton
-                    (950, 951) codepoint = '"'
-(0, 3) literal
-  (0, 3) singleton
-    (1, 2) codepoint = 'a'
+t.NewNode(
+    TreeData{
+    	 Type:  "grammar",
+    	 First: 0,
+    	 Last:  960,
+    	},
+    []tree.Node{
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 0,
+            	 Last:  18,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 0,
+                    	 Last:  7,
+                    	},
+                    []tree.Node{
 
-Process finished with the exit code 0
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 8,
+                    	 Last:  18,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 12,
+                            	 Last:  17,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 12,
+                                    	 Last:  17,
+                                    	},
+                                    []tree.Node{
 
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 19,
+            	 Last:  36,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 19,
+                    	 Last:  24,
+                    	},
+                    []tree.Node{
 
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 25,
+                    	 Last:  36,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 29,
+                            	 Last:  35,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 30,
+                                    	 Last:  34,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "hexcode",
+                                            	 First: 30,
+                                            	 Last:  34,
+                                            	},
+                                            []tree.Node{
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hex",
+                                                    	 First: 30,
+                                                    	 Last:  31,
+                                                    	},
+                                                    []tree.Node{
+
+                                                    },
+                                                ),
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hex",
+                                                    	 First: 31,
+                                                    	 Last:  32,
+                                                    	},
+                                                    []tree.Node{
+
+                                                    },
+                                                ),
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hex",
+                                                    	 First: 32,
+                                                    	 Last:  33,
+                                                    	},
+                                                    []tree.Node{
+
+                                                    },
+                                                ),
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hex",
+                                                    	 First: 33,
+                                                    	 Last:  34,
+                                                    	},
+                                                    []tree.Node{
+
+                                                    },
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 37,
+            	 Last:  56,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 37,
+                    	 Last:  44,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 45,
+                    	 Last:  56,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 49,
+                            	 Last:  55,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 50,
+                                    	 Last:  54,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "hexcode",
+                                            	 First: 50,
+                                            	 Last:  54,
+                                            	},
+                                            []tree.Node{
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hex",
+                                                    	 First: 50,
+                                                    	 Last:  51,
+                                                    	},
+                                                    []tree.Node{
+
+                                                    },
+                                                ),
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hex",
+                                                    	 First: 51,
+                                                    	 Last:  52,
+                                                    	},
+                                                    []tree.Node{
+
+                                                    },
+                                                ),
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hex",
+                                                    	 First: 52,
+                                                    	 Last:  53,
+                                                    	},
+                                                    []tree.Node{
+
+                                                    },
+                                                ),
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hex",
+                                                    	 First: 53,
+                                                    	 Last:  54,
+                                                    	},
+                                                    []tree.Node{
+
+                                                    },
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 57,
+            	 Last:  89,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 57,
+                    	 Last:  61,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 62,
+                    	 Last:  78,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 66,
+                            	 Last:  72,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 66,
+                                    	 Last:  72,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 73,
+                            	 Last:  77,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 73,
+                                    	 Last:  77,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 78,
+                    	 Last:  89,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 82,
+                            	 Last:  88,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 82,
+                                    	 Last:  88,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 90,
+            	 Last:  133,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 90,
+                    	 Last:  96,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 97,
+                    	 Last:  111,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 101,
+                            	 Last:  110,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "range",
+                                    	 First: 101,
+                                    	 Last:  110,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 102,
+                                            	 Last:  103,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 108,
+                                            	 Last:  109,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                    },
+                                ),
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "exclude",
+                                    	 First: 110,
+                                    	 Last:  110,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 111,
+                    	 Last:  125,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 115,
+                            	 Last:  124,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "range",
+                                    	 First: 115,
+                                    	 Last:  124,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 116,
+                                            	 Last:  117,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 122,
+                                            	 Last:  123,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                    },
+                                ),
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "exclude",
+                                    	 First: 124,
+                                    	 Last:  124,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 125,
+                    	 Last:  133,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 129,
+                            	 Last:  132,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 130,
+                                    	 Last:  131,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 134,
+            	 Last:  174,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 134,
+                    	 Last:  145,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 146,
+                    	 Last:  174,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 150,
+                            	 Last:  155,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 150,
+                                    	 Last:  155,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 156,
+                            	 Last:  161,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 156,
+                                    	 Last:  161,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 162,
+                            	 Last:  167,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 162,
+                                    	 Last:  167,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 168,
+                            	 Last:  173,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 168,
+                                    	 Last:  173,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 175,
+            	 Last:  213,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 175,
+                    	 Last:  180,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 181,
+                    	 Last:  204,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 185,
+                            	 Last:  189,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 185,
+                                    	 Last:  189,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 190,
+                            	 Last:  197,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 190,
+                                    	 Last:  197,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 198,
+                            	 Last:  203,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 198,
+                                    	 Last:  203,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 204,
+                    	 Last:  213,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 208,
+                            	 Last:  212,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 208,
+                                    	 Last:  212,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 214,
+            	 Last:  261,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 214,
+                    	 Last:  218,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 219,
+                    	 Last:  249,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 223,
+                            	 Last:  227,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 223,
+                                    	 Last:  227,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 228,
+                            	 Last:  235,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 228,
+                                    	 Last:  235,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 236,
+                            	 Last:  248,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 236,
+                                    	 Last:  248,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 249,
+                    	 Last:  261,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 253,
+                            	 Last:  260,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 253,
+                                    	 Last:  260,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 262,
+            	 Last:  309,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 262,
+                    	 Last:  269,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 270,
+                    	 Last:  302,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 274,
+                            	 Last:  285,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 274,
+                                    	 Last:  285,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 286,
+                            	 Last:  289,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 287,
+                                    	 Last:  288,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 290,
+                            	 Last:  293,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 291,
+                                    	 Last:  292,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 294,
+                            	 Last:  301,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 294,
+                                    	 Last:  301,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 302,
+                    	 Last:  309,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 306,
+                            	 Last:  308,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "characters",
+                                    	 First: 307,
+                                    	 Last:  307,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 310,
+            	 Last:  368,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 310,
+                    	 Last:  322,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 323,
+                    	 Last:  352,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 327,
+                            	 Last:  338,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 327,
+                                    	 Last:  338,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 339,
+                            	 Last:  351,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 339,
+                                    	 Last:  351,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 352,
+                    	 Last:  368,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 356,
+                            	 Last:  367,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 356,
+                                    	 Last:  367,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 369,
+            	 Last:  411,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 369,
+                    	 Last:  380,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 381,
+                    	 Last:  411,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 385,
+                            	 Last:  396,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 385,
+                                    	 Last:  396,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 397,
+                            	 Last:  402,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 397,
+                                    	 Last:  402,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 403,
+                            	 Last:  410,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 403,
+                                    	 Last:  410,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 412,
+            	 Last:  448,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 412,
+                    	 Last:  417,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 418,
+                    	 Last:  439,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 422,
+                            	 Last:  426,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 422,
+                                    	 Last:  426,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 427,
+                            	 Last:  432,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 427,
+                                    	 Last:  432,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 433,
+                            	 Last:  438,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 433,
+                                    	 Last:  438,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 439,
+                    	 Last:  448,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 443,
+                            	 Last:  447,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 443,
+                                    	 Last:  447,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 449,
+            	 Last:  475,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 449,
+                    	 Last:  453,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 454,
+                    	 Last:  466,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 458,
+                            	 Last:  465,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 458,
+                                    	 Last:  465,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 466,
+                    	 Last:  475,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 470,
+                            	 Last:  474,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 470,
+                                    	 Last:  474,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 476,
+            	 Last:  539,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 476,
+                    	 Last:  483,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 484,
+                    	 Last:  502,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 488,
+                            	 Last:  493,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 488,
+                                    	 Last:  493,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 494,
+                            	 Last:  501,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 494,
+                                    	 Last:  501,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 502,
+                    	 Last:  516,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 506,
+                            	 Last:  515,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 506,
+                                    	 Last:  515,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 516,
+                    	 Last:  539,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 520,
+                            	 Last:  523,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 521,
+                                    	 Last:  522,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 524,
+                            	 Last:  534,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 524,
+                                    	 Last:  534,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 535,
+                            	 Last:  538,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 536,
+                                    	 Last:  537,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 540,
+            	 Last:  572,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 540,
+                    	 Last:  549,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 550,
+                    	 Last:  572,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 554,
+                            	 Last:  557,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 555,
+                                    	 Last:  556,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 558,
+                            	 Last:  567,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 558,
+                                    	 Last:  567,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 568,
+                            	 Last:  571,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 569,
+                                    	 Last:  570,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 573,
+            	 Last:  617,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 573,
+                    	 Last:  582,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 583,
+                    	 Last:  595,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 587,
+                            	 Last:  594,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 587,
+                                    	 Last:  594,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 595,
+                    	 Last:  617,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 599,
+                            	 Last:  616,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "range",
+                                    	 First: 599,
+                                    	 Last:  616,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 600,
+                                            	 Last:  604,
+                                            	},
+                                            []tree.Node{
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hexcode",
+                                                    	 First: 600,
+                                                    	 Last:  604,
+                                                    	},
+                                                    []tree.Node{
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 600,
+                                                            	 Last:  601,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 601,
+                                                            	 Last:  602,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 602,
+                                                            	 Last:  603,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 603,
+                                                            	 Last:  604,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ),
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 609,
+                                            	 Last:  615,
+                                            	},
+                                            []tree.Node{
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hexcode",
+                                                    	 First: 609,
+                                                    	 Last:  615,
+                                                    	},
+                                                    []tree.Node{
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 611,
+                                                            	 Last:  612,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 612,
+                                                            	 Last:  613,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 613,
+                                                            	 Last:  614,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 614,
+                                                            	 Last:  615,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ),
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "exclude",
+                                    	 First: 616,
+                                    	 Last:  616,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 618,
+            	 Last:  695,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 618,
+                    	 Last:  625,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 626,
+                    	 Last:  651,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 630,
+                            	 Last:  634,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "characters",
+                                    	 First: 631,
+                                    	 Last:  633,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "character",
+                                            	 First: 631,
+                                            	 Last:  632,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "character",
+                                            	 First: 632,
+                                            	 Last:  633,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 635,
+                            	 Last:  638,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 635,
+                                    	 Last:  638,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 639,
+                            	 Last:  642,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 639,
+                                    	 Last:  642,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 643,
+                            	 Last:  646,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 643,
+                                    	 Last:  646,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 647,
+                            	 Last:  650,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 647,
+                                    	 Last:  650,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 651,
+                    	 Last:  675,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 655,
+                            	 Last:  658,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 655,
+                                    	 Last:  658,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 659,
+                            	 Last:  662,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 659,
+                                    	 Last:  662,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 663,
+                            	 Last:  666,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 663,
+                                    	 Last:  666,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 667,
+                            	 Last:  670,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 667,
+                                    	 Last:  670,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 671,
+                            	 Last:  674,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 671,
+                                    	 Last:  674,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 675,
+                    	 Last:  695,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 679,
+                            	 Last:  682,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 679,
+                                    	 Last:  682,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 683,
+                            	 Last:  686,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 683,
+                                    	 Last:  686,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 687,
+                            	 Last:  690,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 687,
+                                    	 Last:  690,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 691,
+                            	 Last:  694,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 691,
+                                    	 Last:  694,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 696,
+            	 Last:  728,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 696,
+                    	 Last:  699,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 700,
+                    	 Last:  714,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 704,
+                            	 Last:  713,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "range",
+                                    	 First: 704,
+                                    	 Last:  713,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 705,
+                                            	 Last:  706,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 711,
+                                            	 Last:  712,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                    },
+                                ),
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "exclude",
+                                    	 First: 713,
+                                    	 Last:  713,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 714,
+                    	 Last:  728,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 718,
+                            	 Last:  727,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "range",
+                                    	 First: 718,
+                                    	 Last:  727,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 719,
+                                            	 Last:  720,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 725,
+                                            	 Last:  726,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                    },
+                                ),
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "exclude",
+                                    	 First: 727,
+                                    	 Last:  727,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 729,
+            	 Last:  775,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 729,
+                    	 Last:  734,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 735,
+                    	 Last:  775,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 739,
+                            	 Last:  748,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 739,
+                                    	 Last:  748,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 749,
+                            	 Last:  754,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 749,
+                                    	 Last:  754,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 755,
+                            	 Last:  758,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 756,
+                                    	 Last:  757,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 759,
+                            	 Last:  764,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 759,
+                                    	 Last:  764,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 765,
+                            	 Last:  774,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 765,
+                                    	 Last:  774,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 776,
+            	 Last:  863,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 776,
+                    	 Last:  783,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 784,
+                    	 Last:  822,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 788,
+                            	 Last:  793,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 788,
+                                    	 Last:  793,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 794,
+                            	 Last:  797,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 795,
+                                    	 Last:  796,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 798,
+                            	 Last:  803,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 798,
+                                    	 Last:  803,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 804,
+                            	 Last:  813,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 804,
+                                    	 Last:  813,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 814,
+                            	 Last:  821,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 814,
+                                    	 Last:  821,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 822,
+                    	 Last:  856,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 826,
+                            	 Last:  831,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 826,
+                                    	 Last:  831,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 832,
+                            	 Last:  835,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "codepoint",
+                                    	 First: 833,
+                                    	 Last:  834,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 836,
+                            	 Last:  841,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 836,
+                                    	 Last:  841,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 842,
+                            	 Last:  847,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 842,
+                                    	 Last:  847,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 848,
+                            	 Last:  855,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 848,
+                                    	 Last:  855,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 856,
+                    	 Last:  863,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 860,
+                            	 Last:  862,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "characters",
+                                    	 First: 861,
+                                    	 Last:  861,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 864,
+            	 Last:  921,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 864,
+                    	 Last:  874,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 875,
+                    	 Last:  900,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 879,
+                            	 Last:  888,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 879,
+                                    	 Last:  888,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 889,
+                            	 Last:  899,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 889,
+                                    	 Last:  899,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 900,
+                    	 Last:  914,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 904,
+                            	 Last:  913,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "name",
+                                    	 First: 904,
+                                    	 Last:  913,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 914,
+                    	 Last:  921,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 918,
+                            	 Last:  920,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "characters",
+                                    	 First: 919,
+                                    	 Last:  919,
+                                    	},
+                                    []tree.Node{
+
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+        t.NewNode(
+            TreeData{
+            	 Type:  "rule",
+            	 First: 922,
+            	 Last:  960,
+            	},
+            []tree.Node{
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "name",
+                    	 First: 922,
+                    	 Last:  931,
+                    	},
+                    []tree.Node{
+
+                    },
+                ),
+                t.NewNode(
+                    TreeData{
+                    	 Type:  "alternative",
+                    	 First: 932,
+                    	 Last:  960,
+                    	},
+                    []tree.Node{
+                        t.NewNode(
+                            TreeData{
+                            	 Type:  "item",
+                            	 First: 936,
+                            	 Last:  959,
+                            	},
+                            []tree.Node{
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "range",
+                                    	 First: 936,
+                                    	 Last:  953,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 937,
+                                            	 Last:  941,
+                                            	},
+                                            []tree.Node{
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hexcode",
+                                                    	 First: 937,
+                                                    	 Last:  941,
+                                                    	},
+                                                    []tree.Node{
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 937,
+                                                            	 Last:  938,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 938,
+                                                            	 Last:  939,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 939,
+                                                            	 Last:  940,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 940,
+                                                            	 Last:  941,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ),
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 946,
+                                            	 Last:  952,
+                                            	},
+                                            []tree.Node{
+                                                t.NewNode(
+                                                    TreeData{
+                                                    	 Type:  "hexcode",
+                                                    	 First: 946,
+                                                    	 Last:  952,
+                                                    	},
+                                                    []tree.Node{
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 948,
+                                                            	 Last:  949,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 949,
+                                                            	 Last:  950,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 950,
+                                                            	 Last:  951,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                        t.NewNode(
+                                                            TreeData{
+                                                            	 Type:  "hex",
+                                                            	 First: 951,
+                                                            	 Last:  952,
+                                                            	},
+                                                            []tree.Node{
+
+                                                            },
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ),
+                                t.NewNode(
+                                    TreeData{
+                                    	 Type:  "exclude",
+                                    	 First: 953,
+                                    	 Last:  959,
+                                    	},
+                                    []tree.Node{
+                                        t.NewNode(
+                                            TreeData{
+                                            	 Type:  "codepoint",
+                                            	 First: 957,
+                                            	 Last:  958,
+                                            	},
+                                            []tree.Node{
+
+                                            },
+                                        ),
+                                    },
+                                ),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ),
+    },
+)
