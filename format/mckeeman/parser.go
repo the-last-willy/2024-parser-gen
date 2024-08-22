@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-type BetterParser struct {
+type Parser struct {
 	Grammar      tree.Tree[parse.TreeData]
 	GrammarStore string
 
@@ -15,31 +15,31 @@ type BetterParser struct {
 	Rules map[string]tree.Node
 }
 
-func (p *BetterParser) dataOf(n tree.Node) parse.TreeData {
+func (p *Parser) dataOf(n tree.Node) parse.TreeData {
 	return parse.DataOf(p.Grammar.WithRoot(n))
 }
 
-func (p *BetterParser) textOf(n tree.Node) string {
+func (p *Parser) textOf(n tree.Node) string {
 	return parse.TextOf(p.Grammar.WithRoot(n), p.GrammarStore)
 }
 
-func (p *BetterParser) typeOf(n tree.Node) string {
+func (p *Parser) typeOf(n tree.Node) string {
 	return parse.TypeOf(p.Grammar.WithRoot(n))
 }
 
-func (p *BetterParser) findAllWithType(n tree.Node, ty string) []tree.Node {
+func (p *Parser) findAllWithType(n tree.Node, ty string) []tree.Node {
 	return parse.FindAllWithType(p.Grammar.WithRoot(n), ty)
 }
 
-func (p *BetterParser) findFirstWithType(n tree.Node, ty string) *tree.Node {
+func (p *Parser) findFirstWithType(n tree.Node, ty string) *tree.Node {
 	return parse.FindFirstWithType(p.Grammar.WithRoot(n), ty)
 }
 
-func (p *BetterParser) newLeaf(ty string, first, last int) tree.Node {
+func (p *Parser) newLeaf(ty string, first, last int) tree.Node {
 	return p.newNode(ty, first, last, []tree.Node{})
 }
 
-func (p *BetterParser) newNode(ty string, first, last int, children []tree.Node) tree.Node {
+func (p *Parser) newNode(ty string, first, last int, children []tree.Node) tree.Node {
 	return p.Grammar.NewNode(
 		parse.TreeData{
 			Type:  ty,
@@ -50,8 +50,8 @@ func (p *BetterParser) newNode(ty string, first, last int, children []tree.Node)
 	)
 }
 
-func NewBetterParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *BetterParser {
-	p := &BetterParser{}
+func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parser {
+	p := &Parser{}
 
 	p.Grammar = grammar
 	p.GrammarStore = store
@@ -68,15 +68,15 @@ func NewBetterParserForGrammar(grammar tree.Tree[parse.TreeData], store string) 
 	return p
 }
 
-func NewBetterParser() *BetterParser {
-	return NewBetterParserForGrammar(grammarTree(), grammarSource)
+func NewParser() *Parser {
+	return NewParserForGrammar(grammarTree(), grammarSource)
 }
 
-func (p *BetterParser) Parse(s string) tree.Tree[parse.TreeData] {
+func (p *Parser) Parse(s string) tree.Tree[parse.TreeData] {
 	return p.Grammar.WithRoot(*p.ParseRule(*p.findFirstWithType(p.Grammar.Root(), "rule"), s, 0))
 }
 
-func (p *BetterParser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
 	if p.typeOf(r) != "rule" {
 		panic("not a rule")
 	}
@@ -110,7 +110,7 @@ func (p *BetterParser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
 	return nil
 }
 
-func (p *BetterParser) ParseAlternative(a tree.Node, s string, cursor int) ([]tree.Node, bool) {
+func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) ([]tree.Node, bool) {
 	if p.typeOf(a) != "alternative" {
 		panic("not an alternative")
 	}
@@ -128,7 +128,7 @@ func (p *BetterParser) ParseAlternative(a tree.Node, s string, cursor int) ([]tr
 	return parsedItems, true
 }
 
-func (p *BetterParser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 	if p.typeOf(i) != "item" {
 		panic("not an item")
 	}
@@ -153,7 +153,7 @@ func (p *BetterParser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 
 // Parse primitives
 
-func (p *BetterParser) ParseCharacters(c tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseCharacters(c tree.Node, s string, cursor int) *tree.Node {
 	if p.typeOf(c) != "characters" {
 		panic("not a characters")
 	}
@@ -181,7 +181,7 @@ func (p *BetterParser) ParseCharacters(c tree.Node, s string, cursor int) *tree.
 	return nil
 }
 
-func (p *BetterParser) ParseCodePoint(c tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseCodePoint(c tree.Node, s string, cursor int) *tree.Node {
 	if p.typeOf(c) != "codepoint" {
 		panic("not codepoint")
 	}
@@ -195,7 +195,7 @@ func (p *BetterParser) ParseCodePoint(c tree.Node, s string, cursor int) *tree.N
 	return nil
 }
 
-func (p *BetterParser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node {
 	if p.typeOf(item) != "item" {
 		panic("ParseRangeItem: must receive the parent item")
 	}
@@ -236,7 +236,7 @@ func (p *BetterParser) ParseRangeItem(item tree.Node, s string, cursor int) *tre
 	return nil
 }
 
-func (p *BetterParser) CodePointToUint8(s string) uint8 {
+func (p *Parser) CodePointToUint8(s string) uint8 {
 	// TODO Hex weirdness, encoding...
 	if len(s) == 1 {
 		return s[0]

@@ -22,7 +22,7 @@ func main() {
 	//file, _ := os.Create("tree.txt")
 	//file.WriteString(f.Format(tr, string(src)))
 
-	p2 := mckeeman.NewBetterParser()
+	p2 := mckeeman.NewParser()
 	tr2 := p2.Parse(string(src))
 
 	pd := mckeeman.NewSimplifier()

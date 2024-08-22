@@ -7,15 +7,15 @@ import (
 )
 
 type Parser struct {
-	internal *mckeeman.BetterParser
+	internal *mckeeman.Parser
 }
 
 func NewParser() *Parser {
-	mkParser := mckeeman.NewBetterParser()
+	mkParser := mckeeman.NewParser()
 	grammar := mkParser.Parse(mckeemanGrammar)
 
 	return &Parser{
-		internal: mckeeman.NewBetterParserForGrammar(grammar, mckeemanGrammar),
+		internal: mckeeman.NewParserForGrammar(grammar, mckeemanGrammar),
 	}
 }
 
