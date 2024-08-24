@@ -20,5 +20,5 @@ func (d *Derecursifier) Process(t tree.Tree[TreeData]) tree.Tree[TreeData] {
 			children = append(children, dc.Root())
 		}
 	}
-	return t.New(t.DataOf(parent), children)
+	return t.WithRoot(t.NewNode(t.DataOf(parent), children))
 }

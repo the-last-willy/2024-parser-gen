@@ -8,6 +8,7 @@ type Node struct {
 type Tree[Data any] interface {
 	Root() Node
 
+	// TODO Remove
 	IsEmpty() bool
 
 	ChildrenOf(Node) []Node
@@ -18,9 +19,6 @@ type Tree[Data any] interface {
 
 	// TODO Move to a tree builder ???
 	WithRoot(Node) Tree[Data]
-
-	// TODO Move to a tree builder
-	New(data Data, children []Node) Tree[Data]
 }
 
 func RootChildren[Data any](t Tree[Data]) []Node {
