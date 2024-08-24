@@ -7,6 +7,11 @@ import (
 	"strings"
 )
 
+type parseResult struct {
+	count int
+	nodes []tree.Node
+}
+
 type Parser struct {
 	Grammar      tree.Tree[parse.TreeData]
 	GrammarStore string
@@ -86,25 +91,22 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
 	alternatives := p.findAllWithType(r, AlternativeType)
 	// Must parse any alternative
 	for _, alternative := range alternatives {
-		items, ok := p.ParseAlternative(alternative, s, cursor)
+		alt, ok := p.ParseAlternative(alternative, s, cursor)
 		if !ok {
 			continue
 		}
 
 		itemsWithoutPrimitives := []tree.Node{}
-		for _, item := range items {
+		for _, item := range alt.nodes {
 			if p.typeOf(item) != "xxx" {
 				itemsWithoutPrimitives = append(itemsWithoutPrimitives, item)
 			}
 		}
 
-		first := p.dataOf(items[0]).First
-		last := p.dataOf(items[len(items)-1]).Last
-
 		nn := p.newNode(
 			p.textOf(name),
-			first,
-			last,
+			cursor,
+			cursor+alt.count,
 			itemsWithoutPrimitives,
 		)
 		return &nn
@@ -112,22 +114,26 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
 	return nil
 }
 
-func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) (t []tree.Node, ok bool) {
+func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) (res parseResult, ok bool) {
 	if p.typeOf(a) != AlternativeType {
 		panic("not an alternative")
 	}
 	items := p.findAllWithType(a, ItemType)
 	parsedItems := []tree.Node{}
+	cursor2 := cursor
 	// Must parse all items
 	for _, item := range items {
-		cnt, tr, ok := p.ParseItem(item, s, cursor)
+		cnt, tr, ok := p.ParseItem(item, s, cursor2)
 		if !ok {
-			return nil, false
+			return parseResult{}, false
 		}
-		cursor += cnt
+		cursor2 += cnt
 		parsedItems = append(parsedItems, *tr)
 	}
-	return parsedItems, true
+	return parseResult{
+		count: cursor2 - cursor,
+		nodes: parsedItems,
+	}, true
 }
 
 func (p *Parser) ParseItem(i tree.Node, s string, cursor int) (count int, t *tree.Node, ok bool) {
