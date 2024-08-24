@@ -147,7 +147,13 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 		}
 	}
 	if rn := p.findFirstWithType(i, RangeType); rn != nil {
-		return p.ParseRangeItem(i, s, cursor)
+		count, ok := p.ParseRangeItem(i, s, cursor)
+		if ok {
+			l := p.newLeaf("xxx", cursor, cursor+count)
+			return &l
+		} else {
+			return nil
+		}
 	}
 
 	if cp := p.findFirstWithType(i, CodePointType); cp != nil {
@@ -204,12 +210,12 @@ func (p *Parser) ParseCodePoint(c tree.Node, s string, cursor int) (count int, o
 	return 0, false
 }
 
-func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) (count int, ok bool) {
 	if p.typeOf(item) != ItemType {
 		panic("ParseRangeItem: must receive the parent item")
 	}
 	if cursor >= len(s) {
-		return nil
+		return 0, false
 	}
 	excludes := p.findAllWithType(item, ExcludeType)
 	for _, exclude := range excludes {
@@ -230,7 +236,7 @@ func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node
 		}
 		// Exclusion should not be parsed
 		if t != nil {
-			return nil
+			return 0, false
 		}
 	}
 
@@ -243,10 +249,9 @@ func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node
 	lb := p.CodePointToUint8(p.textOf(cps[0]))
 	ub := p.CodePointToUint8(p.textOf(cps[1]))
 	if lb <= s[cursor] && s[cursor] <= ub {
-		leaf := p.newLeaf("xxx", cursor, cursor+1)
-		return &leaf
+		return 1, true
 	}
-	return nil
+	return 0, false
 }
 
 func (p *Parser) CodePointToUint8(s string) uint8 {
