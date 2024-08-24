@@ -138,7 +138,13 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 		return p.ParseRule(r, s, cursor)
 	}
 	if cs := p.findFirstWithType(i, CharactersType); cs != nil {
-		return p.ParseCharacters(*cs, s, cursor)
+		count, ok := p.ParseCharacters(*cs, s, cursor)
+		if ok {
+			l := p.newLeaf("xxx", cursor, cursor+count)
+			return &l
+		} else {
+			return nil
+		}
 	}
 	if rn := p.findFirstWithType(i, RangeType); rn != nil {
 		return p.ParseRangeItem(i, s, cursor)
@@ -159,7 +165,7 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 
 // Parse primitives
 
-func (p *Parser) ParseCharacters(c tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseCharacters(c tree.Node, s string, cursor int) (count int, ok bool) {
 	if p.typeOf(c) != CharactersType {
 		panic("not a characters")
 	}
@@ -177,14 +183,12 @@ func (p *Parser) ParseCharacters(c tree.Node, s string, cursor int) *tree.Node {
 
 	// Special case for empty characters
 	if len(data) == 0 {
-		leaf := p.newLeaf("xxx", cursor, cursor)
-		return &leaf
+		return 0, true
 	}
 	if strings.HasPrefix(s[cursor:], data) {
-		leaf := p.newLeaf("xxx", cursor, cursor+len(data))
-		return &leaf
+		return len(data), true
 	}
-	return nil
+	return 0, false
 }
 
 func (p *Parser) ParseCodePoint(c tree.Node, s string, cursor int) (count int, ok bool) {
