@@ -112,7 +112,7 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
 	return nil
 }
 
-func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) ([]tree.Node, bool) {
+func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) (t []tree.Node, ok bool) {
 	if p.typeOf(a) != AlternativeType {
 		panic("not an alternative")
 	}
@@ -120,28 +120,30 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) ([]tree.Nod
 	parsedItems := []tree.Node{}
 	// Must parse all items
 	for _, item := range items {
-		parsed := p.ParseItem(item, s, cursor)
-		if parsed == nil {
+		cnt, tr, ok := p.ParseItem(item, s, cursor)
+		if !ok {
 			return nil, false
 		}
-		cursor = p.dataOf(*parsed).Last
-		parsedItems = append(parsedItems, *parsed)
+		cursor += cnt
+		parsedItems = append(parsedItems, *tr)
 	}
 	return parsedItems, true
 }
 
-func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseItem(i tree.Node, s string, cursor int) (count int, t *tree.Node, ok bool) {
 	if p.typeOf(i) != ItemType {
 		panic("not an item")
 	}
 
 	if nm := p.findFirstWithType(i, NameType); nm != nil {
 		r := p.Rules[p.textOf(*nm)]
-		return p.ParseRule(r, s, cursor)
+		t := p.ParseRule(r, s, cursor)
+		if t == nil {
+			return 0, nil, false
+		} else {
+			return p.dataOf(*t).Last - p.dataOf(*t).First, t, true
+		}
 	}
-
-	var count int
-	var ok bool
 
 	if cs := p.findFirstWithType(i, CharactersType); cs != nil {
 		count, ok = p.ParseCharacters(*cs, s, cursor)
@@ -155,9 +157,9 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 
 	if ok {
 		l := p.newLeaf("xxx", cursor, cursor+count)
-		return &l
+		return count, &l, true
 	} else {
-		return nil
+		return 0, nil, false
 	}
 }
 
