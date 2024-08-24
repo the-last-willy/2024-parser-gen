@@ -98,8 +98,8 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
 	alternatives := p.findAllWithType(r, AlternativeType)
 	// Must parse any alternative
 	for _, alternative := range alternatives {
-		alt, ok := p.ParseAlternative(alternative, s, cursor)
-		if !ok {
+		alt := p.ParseAlternative(alternative, s, cursor)
+		if alt == nil {
 			continue
 		}
 
@@ -125,7 +125,7 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
 	return nil
 }
 
-func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) (res parseResult, ok bool) {
+func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) *parseResult {
 	if p.typeOf(a) != AlternativeType {
 		panic("not an alternative")
 	}
@@ -136,15 +136,15 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) (res parseR
 	for _, item := range items {
 		cnt, tr, ok := p.ParseItem(item, s, cursor2)
 		if !ok {
-			return parseResult{}, false
+			return nil
 		}
 		cursor2 += cnt
 		parsedItems = append(parsedItems, *tr)
 	}
-	return parseResult{
+	return &parseResult{
 		count: cursor2 - cursor,
 		nodes: parsedItems,
-	}, true
+	}
 }
 
 func (p *Parser) ParseItem(i tree.Node, s string, cursor int) (count int, t *tree.Node, ok bool) {
