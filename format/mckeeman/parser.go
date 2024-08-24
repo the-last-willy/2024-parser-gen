@@ -144,8 +144,14 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 		return p.ParseRangeItem(i, s, cursor)
 	}
 
-		return p.ParseCodePoint(*cp, s, cursor)
 	if cp := p.findFirstWithType(i, CodePointType); cp != nil {
+		count, ok := p.ParseCodePoint(*cp, s, cursor)
+		if ok {
+			l := p.newLeaf("xxx", cursor, cursor+count)
+			return &l
+		} else {
+			return nil
+		}
 	}
 
 	panic("unknown item type")
@@ -181,18 +187,17 @@ func (p *Parser) ParseCharacters(c tree.Node, s string, cursor int) *tree.Node {
 	return nil
 }
 
-func (p *Parser) ParseCodePoint(c tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseCodePoint(c tree.Node, s string, cursor int) (count int, ok bool) {
 	if p.typeOf(c) != CodePointType {
 		panic("not codepoint")
 	}
 	if cursor >= len(s) {
-		return nil
+		return 0, false
 	}
 	if s[cursor] == p.CodePointToUint8(p.textOf(c)) {
-		leaf := p.newLeaf("xxx", cursor, cursor+1)
-		return &leaf
+		return 1, true
 	}
-	return nil
+	return 0, false
 }
 
 func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node {
@@ -209,8 +214,12 @@ func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node
 		}
 
 		var t *tree.Node
-			t = p.ParseCodePoint(*cp, s, cursor)
 		if cp := p.findFirstWithType(exclude, CodePointType); cp != nil {
+			count, ok := p.ParseCodePoint(*cp, s, cursor)
+			if ok {
+				l := p.newLeaf("xxx", cursor, cursor+count)
+				t = &l
+			}
 
 		} else if rng := p.findFirstWithType(exclude, "range"); rng != nil {
 			panic("ParseRangeItem: range exclude not implemented")
