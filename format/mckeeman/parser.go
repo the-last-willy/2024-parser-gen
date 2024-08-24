@@ -56,11 +56,11 @@ func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parse
 	p.Grammar = grammar
 	p.GrammarStore = store
 
-	rules := p.findAllWithType(grammar.Root(), "rule")
+	rules := p.findAllWithType(grammar.Root(), RuleType)
 
 	p.Rules = map[string]tree.Node{}
 	for _, rule := range rules {
-		name := *p.findFirstWithType(rule, "name")
+		name := *p.findFirstWithType(rule, NameType)
 		nd := grammar.DataOf(name)
 		p.Rules[p.GrammarStore[nd.First:nd.Last]] = rule
 	}
@@ -73,15 +73,15 @@ func NewParser() *Parser {
 }
 
 func (p *Parser) Parse(s string) tree.Tree[parse.TreeData] {
-	return p.Grammar.WithRoot(*p.ParseRule(*p.findFirstWithType(p.Grammar.Root(), "rule"), s, 0))
+	return p.Grammar.WithRoot(*p.ParseRule(*p.findFirstWithType(p.Grammar.Root(), RuleType), s, 0))
 }
 
 func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
-	if p.typeOf(r) != "rule" {
+	if p.typeOf(r) != RuleType {
 		panic("not a rule")
 	}
-	name := *p.findFirstWithType(r, "name")
-	alternatives := p.findAllWithType(r, "alternative")
+	name := *p.findFirstWithType(r, NameType)
+	alternatives := p.findAllWithType(r, AlternativeType)
 	// Must parse any alternative
 	for _, alternative := range alternatives {
 		items, ok := p.ParseAlternative(alternative, s, cursor)
@@ -111,10 +111,10 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
 }
 
 func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) ([]tree.Node, bool) {
-	if p.typeOf(a) != "alternative" {
+	if p.typeOf(a) != AlternativeType {
 		panic("not an alternative")
 	}
-	items := p.findAllWithType(a, "item")
+	items := p.findAllWithType(a, ItemType)
 	parsedItems := []tree.Node{}
 	// Must parse all items
 	for _, item := range items {
@@ -129,23 +129,23 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) ([]tree.Nod
 }
 
 func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
-	if p.typeOf(i) != "item" {
+	if p.typeOf(i) != ItemType {
 		panic("not an item")
 	}
 
-	if nm := p.findFirstWithType(i, "name"); nm != nil {
+	if nm := p.findFirstWithType(i, NameType); nm != nil {
 		r := p.Rules[p.textOf(*nm)]
 		return p.ParseRule(r, s, cursor)
 	}
-	if cs := p.findFirstWithType(i, "characters"); cs != nil {
+	if cs := p.findFirstWithType(i, CharactersType); cs != nil {
 		return p.ParseCharacters(*cs, s, cursor)
 	}
-	if rn := p.findFirstWithType(i, "range"); rn != nil {
+	if rn := p.findFirstWithType(i, RangeType); rn != nil {
 		return p.ParseRangeItem(i, s, cursor)
 	}
 
-	if cp := p.findFirstWithType(i, "codepoint"); cp != nil {
 		return p.ParseCodePoint(*cp, s, cursor)
+	if cp := p.findFirstWithType(i, CodePointType); cp != nil {
 	}
 
 	panic("unknown item type")
@@ -154,13 +154,13 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 // Parse primitives
 
 func (p *Parser) ParseCharacters(c tree.Node, s string, cursor int) *tree.Node {
-	if p.typeOf(c) != "characters" {
+	if p.typeOf(c) != CharactersType {
 		panic("not a characters")
 	}
 
 	// Retrieves all characters
 	data := ""
-	characters := p.findAllWithType(c, "character")
+	characters := p.findAllWithType(c, CharacterType)
 	if len(characters) == 0 {
 		data = p.textOf(c)
 	} else {
@@ -182,7 +182,7 @@ func (p *Parser) ParseCharacters(c tree.Node, s string, cursor int) *tree.Node {
 }
 
 func (p *Parser) ParseCodePoint(c tree.Node, s string, cursor int) *tree.Node {
-	if p.typeOf(c) != "codepoint" {
+	if p.typeOf(c) != CodePointType {
 		panic("not codepoint")
 	}
 	if cursor >= len(s) {
@@ -196,21 +196,21 @@ func (p *Parser) ParseCodePoint(c tree.Node, s string, cursor int) *tree.Node {
 }
 
 func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node {
-	if p.typeOf(item) != "item" {
+	if p.typeOf(item) != ItemType {
 		panic("ParseRangeItem: must receive the parent item")
 	}
 	if cursor >= len(s) {
 		return nil
 	}
-	excludes := p.findAllWithType(item, "exclude")
+	excludes := p.findAllWithType(item, ExcludeType)
 	for _, exclude := range excludes {
-		if p.typeOf(exclude) != "exclude" {
+		if p.typeOf(exclude) != ExcludeType {
 			panic("ParseRangeItem: not an exclude")
 		}
 
 		var t *tree.Node
-		if cp := p.findFirstWithType(exclude, "codepoint"); cp != nil {
 			t = p.ParseCodePoint(*cp, s, cursor)
+		if cp := p.findFirstWithType(exclude, CodePointType); cp != nil {
 
 		} else if rng := p.findFirstWithType(exclude, "range"); rng != nil {
 			panic("ParseRangeItem: range exclude not implemented")
@@ -222,11 +222,11 @@ func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) *tree.Node
 	}
 
 	rang := *p.findFirstWithType(item, "range")
-	if p.typeOf(rang) != "range" {
+	if p.typeOf(rang) != RangeType {
 		panic("ParseRangeItem: not a range")
 	}
 
-	cps := p.findAllWithType(rang, "codepoint")
+	cps := p.findAllWithType(rang, CodePointType)
 	lb := p.CodePointToUint8(p.textOf(cps[0]))
 	ub := p.CodePointToUint8(p.textOf(cps[1]))
 	if lb <= s[cursor] && s[cursor] <= ub {
