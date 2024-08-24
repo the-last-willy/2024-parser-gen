@@ -137,36 +137,26 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *tree.Node {
 		r := p.Rules[p.textOf(*nm)]
 		return p.ParseRule(r, s, cursor)
 	}
+
+	var count int
+	var ok bool
+
 	if cs := p.findFirstWithType(i, CharactersType); cs != nil {
-		count, ok := p.ParseCharacters(*cs, s, cursor)
-		if ok {
-			l := p.newLeaf("xxx", cursor, cursor+count)
-			return &l
-		} else {
-			return nil
-		}
-	}
-	if rn := p.findFirstWithType(i, RangeType); rn != nil {
-		count, ok := p.ParseRangeItem(i, s, cursor)
-		if ok {
-			l := p.newLeaf("xxx", cursor, cursor+count)
-			return &l
-		} else {
-			return nil
-		}
+		count, ok = p.ParseCharacters(*cs, s, cursor)
+	} else if rn := p.findFirstWithType(i, RangeType); rn != nil {
+		count, ok = p.ParseRangeItem(i, s, cursor)
+	} else if cp := p.findFirstWithType(i, CodePointType); cp != nil {
+		count, ok = p.ParseCodePoint(*cp, s, cursor)
+	} else {
+		panic("unknown item type")
 	}
 
-	if cp := p.findFirstWithType(i, CodePointType); cp != nil {
-		count, ok := p.ParseCodePoint(*cp, s, cursor)
-		if ok {
-			l := p.newLeaf("xxx", cursor, cursor+count)
-			return &l
-		} else {
-			return nil
-		}
+	if ok {
+		l := p.newLeaf("xxx", cursor, cursor+count)
+		return &l
+	} else {
+		return nil
 	}
-
-	panic("unknown item type")
 }
 
 // Parse primitives
