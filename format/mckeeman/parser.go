@@ -27,10 +27,6 @@ type Parser struct {
 	Rules map[string]tree.Node
 }
 
-func (p *Parser) dataOf(n tree.Node) parse.TreeData {
-	return parse.DataOf(p.Grammar.WithRoot(n))
-}
-
 func (p *Parser) textOf(n tree.Node) string {
 	return parse.TextOf(p.Grammar.WithRoot(n), p.GrammarStore)
 }
