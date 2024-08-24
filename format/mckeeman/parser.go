@@ -167,15 +167,7 @@ func (p *Parser) ParseCharacters(c tree.Node, s string, cursor int) (count int, 
 	}
 
 	// Retrieves all characters
-	data := ""
-	characters := p.findAllWithType(c, CharacterType)
-	if len(characters) == 0 {
-		data = p.textOf(c)
-	} else {
-		for _, char := range characters {
-			data += p.textOf(char)
-		}
-	}
+	data := p.textOf(c)
 
 	// Special case for empty characters
 	if len(data) == 0 {
