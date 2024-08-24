@@ -6,6 +6,7 @@ type Node struct {
 }
 
 type Tree[Data any] interface {
+	// TODO optional return type
 	Root() Node
 
 	// TODO Remove
