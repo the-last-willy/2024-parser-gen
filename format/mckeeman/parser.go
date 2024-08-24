@@ -103,18 +103,11 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
 			continue
 		}
 
-		itemsWithoutPrimitives := []tree.Node{}
-		for _, item := range alt.nodes {
-			if p.typeOf(item) != "xxx" {
-				itemsWithoutPrimitives = append(itemsWithoutPrimitives, item)
-			}
-		}
-
 		nn := p.newNode(
 			p.textOf(name),
 			cursor,
 			cursor+alt.count,
-			itemsWithoutPrimitives,
+			alt.nodes,
 		)
 
 		return &parseResult{
@@ -130,21 +123,25 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) *parseResul
 		panic("not an alternative")
 	}
 	items := p.findAllWithType(a, ItemType)
-	parsedItems := []tree.Node{}
+
+	res := parseResult{
+		count: 0,
+		nodes: nil,
+	}
+
 	cursor2 := cursor
 	// Must parse all items
 	for _, item := range items {
-		res := p.ParseItem(item, s, cursor2)
-		if res == nil {
+		res2 := p.ParseItem(item, s, cursor2)
+		if res2 == nil {
 			return nil
 		}
-		cursor2 += res.count
-		parsedItems = append(parsedItems, res.nodes...)
+		cursor2 += res2.count
+		res.nodes = append(res.nodes, res2.nodes...)
 	}
-	return &parseResult{
-		count: cursor2 - cursor,
-		nodes: parsedItems,
-	}
+
+	res.count = cursor2 - cursor
+	return &res
 }
 
 func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *parseResult {
