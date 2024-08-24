@@ -12,6 +12,13 @@ type parseResult struct {
 	nodes []tree.Node
 }
 
+func (r parseResult) Single() tree.Node {
+	if len(r.nodes) == 1 {
+		return r.nodes[0]
+	}
+	panic("parseResult.Single")
+}
+
 type Parser struct {
 	Grammar      tree.Tree[parse.TreeData]
 	GrammarStore string
@@ -80,10 +87,10 @@ func NewParser() *Parser {
 func (p *Parser) Parse(s string) tree.Tree[parse.TreeData] {
 	start := p.findFirstWithType(p.Grammar.Root(), RuleType)
 	parsed := p.ParseRule(*start, s, 0)
-	return p.Grammar.WithRoot(*parsed)
+	return p.Grammar.WithRoot(parsed.nodes[0])
 }
 
-func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
+func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
 	if p.typeOf(r) != RuleType {
 		panic("not a rule")
 	}
@@ -109,7 +116,11 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
 			cursor+alt.count,
 			itemsWithoutPrimitives,
 		)
-		return &nn
+
+		return &parseResult{
+			count: alt.count,
+			nodes: []tree.Node{nn},
+		}
 	}
 	return nil
 }
@@ -147,7 +158,8 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) (count int, t *tre
 		if t == nil {
 			return 0, nil, false
 		} else {
-			return p.dataOf(*t).Last - p.dataOf(*t).First, t, true
+			n := t.Single()
+			return t.count, &n, true
 		}
 	}
 
