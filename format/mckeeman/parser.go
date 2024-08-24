@@ -73,7 +73,9 @@ func NewParser() *Parser {
 }
 
 func (p *Parser) Parse(s string) tree.Tree[parse.TreeData] {
-	return p.Grammar.WithRoot(*p.ParseRule(*p.findFirstWithType(p.Grammar.Root(), RuleType), s, 0))
+	start := p.findFirstWithType(p.Grammar.Root(), RuleType)
+	parsed := p.ParseRule(*start, s, 0)
+	return p.Grammar.WithRoot(*parsed)
 }
 
 func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *tree.Node {
