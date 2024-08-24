@@ -134,12 +134,12 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) *parseResul
 	cursor2 := cursor
 	// Must parse all items
 	for _, item := range items {
-		cnt, tr, ok := p.ParseItem(item, s, cursor2)
-		if !ok {
+		res := p.ParseItem(item, s, cursor2)
+		if res == nil {
 			return nil
 		}
-		cursor2 += cnt
-		parsedItems = append(parsedItems, *tr)
+		cursor2 += res.count
+		parsedItems = append(parsedItems, res.nodes...)
 	}
 	return &parseResult{
 		count: cursor2 - cursor,
@@ -147,21 +147,18 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) *parseResul
 	}
 }
 
-func (p *Parser) ParseItem(i tree.Node, s string, cursor int) (count int, t *tree.Node, ok bool) {
+func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *parseResult {
 	if p.typeOf(i) != ItemType {
 		panic("not an item")
 	}
 
 	if nm := p.findFirstWithType(i, NameType); nm != nil {
 		r := p.Rules[p.textOf(*nm)]
-		t := p.ParseRule(r, s, cursor)
-		if t == nil {
-			return 0, nil, false
-		} else {
-			n := t.Single()
-			return t.count, &n, true
-		}
+		return p.ParseRule(r, s, cursor)
 	}
+
+	var count int
+	var ok bool
 
 	if cs := p.findFirstWithType(i, CharactersType); cs != nil {
 		count, ok = p.ParseCharacters(*cs, s, cursor)
@@ -174,10 +171,12 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) (count int, t *tre
 	}
 
 	if ok {
-		l := p.newLeaf("xxx", cursor, cursor+count)
-		return count, &l, true
+		return &parseResult{
+			count: count,
+			nodes: nil,
+		}
 	} else {
-		return 0, nil, false
+		return nil
 	}
 }
 
