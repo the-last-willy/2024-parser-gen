@@ -8,7 +8,7 @@ import (
 )
 
 type parseResult struct {
-	count int
+	last  int
 	nodes []tree.Node
 }
 
@@ -106,12 +106,12 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
 		nn := p.newNode(
 			p.textOf(name),
 			cursor,
-			cursor+alt.count,
+			alt.last,
 			alt.nodes,
 		)
 
 		return &parseResult{
-			count: alt.count,
+			last:  alt.last,
 			nodes: []tree.Node{nn},
 		}
 	}
@@ -125,22 +125,20 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) *parseResul
 	items := p.findAllWithType(a, ItemType)
 
 	res := parseResult{
-		count: 0,
+		last:  cursor,
 		nodes: nil,
 	}
 
-	cursor2 := cursor
 	// Must parse all items
 	for _, item := range items {
-		res2 := p.ParseItem(item, s, cursor2)
+		res2 := p.ParseItem(item, s, res.last)
 		if res2 == nil {
 			return nil
 		}
-		cursor2 += res2.count
+		res.last = res2.last
 		res.nodes = append(res.nodes, res2.nodes...)
 	}
 
-	res.count = cursor2 - cursor
 	return &res
 }
 
@@ -169,7 +167,7 @@ func (p *Parser) ParseItem(i tree.Node, s string, cursor int) *parseResult {
 
 	if ok {
 		return &parseResult{
-			count: count,
+			last:  cursor + count,
 			nodes: nil,
 		}
 	} else {
