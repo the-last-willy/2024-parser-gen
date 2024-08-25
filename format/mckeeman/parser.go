@@ -25,6 +25,8 @@ type Parser struct {
 
 	// name to rule node
 	Rules map[string]tree.Node
+
+	ruleToAlternatives map[tree.Node][]tree.Node
 }
 
 func (p *Parser) textOf(n tree.Node) string {
@@ -73,6 +75,12 @@ func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parse
 		p.Rules[p.GrammarStore[nd.First:nd.Last]] = rule
 	}
 
+	p.ruleToAlternatives = map[tree.Node][]tree.Node{}
+	for _, r := range p.Rules {
+		alternatives := p.findAllWithType(r, AlternativeType)
+		p.ruleToAlternatives[r] = alternatives
+	}
+
 	return p
 }
 
@@ -91,7 +99,7 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
 		panic("not a rule")
 	}
 	name := *p.findFirstWithType(r, NameType)
-	alternatives := p.findAllWithType(r, AlternativeType)
+	alternatives := p.ruleToAlternatives[r]
 	// Must parse any alternative
 	for _, alternative := range alternatives {
 		alt := p.ParseAlternative(alternative, s, cursor)
