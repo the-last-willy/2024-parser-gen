@@ -35,15 +35,17 @@ func (b SimpleBuilder[Data]) For(t Tree[Data]) Builder[Data] {
 }
 
 func (b SimpleBuilder[Data]) Tree(d Data, children []Builder[Data]) Builder[Data] {
-	subtrees := []Node{}
+	subtrees := []simpleNode[Data]{}
 	for _, c := range children {
 		subt := c.ConvertTo(b).(SimpleBuilder[Data]).Build()
-		subtrees = append(subtrees, Node{Impl: subt})
+		subtrees = append(subtrees, *subt.root)
 	}
 	return SimpleBuilder[Data]{
 		tree: SimpleTree[Data]{
-			data:     d,
-			children: subtrees,
+			root: &simpleNode[Data]{
+				data:     d,
+				children: subtrees,
+			},
 		},
 	}
 }

@@ -1,26 +1,20 @@
 package tree
 
+import "fmt"
+
+type simpleNode[Data any] struct {
+	data     Data
+	children []simpleNode[Data]
+}
+
 // SimpleTree
 // Node.Impl type is SimpleTree[Data].
 type SimpleTree[Data any] struct {
-	data Data
-
-	children []Node
+	root *simpleNode[Data]
 }
 
 func NewSimpleTree[Data any]() SimpleTree[Data] {
 	return SimpleTree[Data]{}
-}
-
-func newSimpleTree[Data any](d Data, children []SimpleTree[Data]) SimpleTree[Data] {
-	nodes := []Node{}
-	for _, child := range children {
-		nodes = append(nodes, Node{Impl: child})
-	}
-	return SimpleTree[Data]{
-		data:     d,
-		children: nodes,
-	}
 }
 
 func (t SimpleTree[Data]) AsTree() Tree[Data] {
@@ -29,7 +23,7 @@ func (t SimpleTree[Data]) AsTree() Tree[Data] {
 
 func (t SimpleTree[Data]) Root() Node {
 	return Node{
-		Impl: t,
+		Impl: t.root,
 	}
 }
 
@@ -38,26 +32,36 @@ func (t SimpleTree[Data]) IsEmpty() bool {
 }
 
 func (t SimpleTree[Data]) ChildrenOf(n Node) []Node {
-	return n.Impl.(SimpleTree[Data]).children
+	children := []Node{}
+	fmt.Printf("%p\n", n.Impl)
+	for i, _ := range n.Impl.(*simpleNode[Data]).children {
+		c := &n.Impl.(*simpleNode[Data]).children[i]
+		fmt.Printf("%p\n", c)
+		children = append(children, Node{Impl: c})
+	}
+	return children
 }
 
 func (t SimpleTree[Data]) DataOf(n Node) Data {
-	return n.Impl.(SimpleTree[Data]).data
+	return n.Impl.(*simpleNode[Data]).data
 }
 
 func (t SimpleTree[Data]) NewNode(data Data, children []Node) Node {
+	realChildren := []simpleNode[Data]{}
+	for _, c := range children {
+		realChildren = append(realChildren, *c.Impl.(*simpleNode[Data]))
+	}
 	return Node{
-		Impl: SimpleTree[Data]{
+		Impl: &simpleNode[Data]{
 			data:     data,
-			children: children,
+			children: realChildren,
 		},
 	}
 }
 
 func (t SimpleTree[Data]) WithRoot(n Node) Tree[Data] {
 	return &SimpleTree[Data]{
-		data:     t.DataOf(n),
-		children: t.ChildrenOf(n),
+		root: n.Impl.(*simpleNode[Data]),
 	}
 }
 
