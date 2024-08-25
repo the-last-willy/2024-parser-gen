@@ -1,7 +1,5 @@
 package tree
 
-import "fmt"
-
 type simpleNode[Data any] struct {
 	data     Data
 	children []simpleNode[Data]
@@ -33,10 +31,8 @@ func (t SimpleTree[Data]) IsEmpty() bool {
 
 func (t SimpleTree[Data]) ChildrenOf(n Node) []Node {
 	children := []Node{}
-	fmt.Printf("%p\n", n.Impl)
 	for i, _ := range n.Impl.(*simpleNode[Data]).children {
 		c := &n.Impl.(*simpleNode[Data]).children[i]
-		fmt.Printf("%p\n", c)
 		children = append(children, Node{Impl: c})
 	}
 	return children
