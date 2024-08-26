@@ -18,6 +18,7 @@ func NewSimplifier() *Simplifier {
 			Remove: func(t tree.Tree[parse.TreeData], n tree.Node) bool {
 				return slices.Contains(
 					[]string{
+						HexType,
 						IndentationType,
 						NewlineType,
 						SpaceType,

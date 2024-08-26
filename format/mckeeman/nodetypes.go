@@ -7,6 +7,7 @@ const (
 	CharactersType   = "characters"
 	CodePointType    = "codepoint"
 	ExcludeType      = "exclude"
+	HexType          = "hex"
 	IndentationType  = "indentation"
 	ItemType         = "item"
 	ItemsType        = "items"
