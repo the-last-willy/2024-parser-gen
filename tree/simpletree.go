@@ -19,6 +19,13 @@ func (t SimpleTree[Data]) AsTree() Tree[Data] {
 	return t
 }
 
+func (t SimpleTree[Data]) Build() SimpleTree[Data] {
+	return t
+}
+
+// Tree interface
+
+// Root returns nil if the tree is empty.
 func (t SimpleTree[Data]) Root() Node {
 	return Node{
 		Impl: t.root,
@@ -63,4 +70,37 @@ func (t SimpleTree[Data]) WithRoot(n Node) Tree[Data] {
 
 func (t SimpleTree[Data]) New(data Data, children []Node) Tree[Data] {
 	return t.WithRoot(t.NewNode(data, children))
+}
+
+// Builder interface
+
+func (t SimpleTree[Data]) ConvertTo(other Builder[Data]) Builder[Data] {
+	if _, ok := other.(SimpleTree[Data]); ok {
+		// It already has the expected type, no need to convert it.
+		return t
+	}
+
+	panic("not implemented")
+}
+
+func (t SimpleTree[Data]) For(tr Tree[Data]) Builder[Data] {
+	if simpleTree, ok := tr.(SimpleTree[Data]); ok {
+		return simpleTree
+	}
+
+	panic("not implemented")
+}
+
+func (t SimpleTree[Data]) Tree(d Data, children []Builder[Data]) Builder[Data] {
+	subtrees := []simpleNode[Data]{}
+	for _, c := range children {
+		subt := c.ConvertTo(t).(SimpleTree[Data]).Build()
+		subtrees = append(subtrees, *subt.root)
+	}
+	return SimpleTree[Data]{
+		root: &simpleNode[Data]{
+			data:     d,
+			children: subtrees,
+		},
+	}
 }
