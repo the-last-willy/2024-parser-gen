@@ -6,38 +6,41 @@ type Pruner[Data any] struct {
 	RemoveKeepChildren func(Tree[Data], Node) bool
 }
 
-func (p *Pruner[Data]) Apply(tree Tree[Data]) Tree[Data] {
-	if tree.IsEmpty() {
-		return tree
+func (p *Pruner[Data]) Apply(t Tree[Data], b Builder[Data]) Builder[Data] {
+	if t.IsEmpty() {
+		return b.Empty()
 	}
 
-	pruned := p.apply(tree, tree.Root())
+	pruned := p.apply(t, t.Root(), b)
 
 	if len(pruned) != 1 {
 		panic("Pruner.Apply: bad pruning")
 	}
 
-	return tree.WithRoot(pruned[0])
+	return pruned[0]
 }
 
-func (p *Pruner[Data]) apply(t Tree[Data], n Node) []Node {
+func (p *Pruner[Data]) apply(t Tree[Data], n Node, b Builder[Data]) []Builder[Data] {
 	if p.Remove(t, n) {
-		return []Node{}
+		return []Builder[Data]{}
 	}
 
 	if p.RemoveChildren(t, n) {
-		newN := t.NewNode(t.DataOf(n), []Node{})
-		return []Node{newN}
+		return []Builder[Data]{
+			b.Tree(t.DataOf(n), []Builder[Data]{}),
+		}
 	}
 
-	pruned := []Node{}
+	pruned := []Builder[Data]{}
 	for _, child := range t.ChildrenOf(n) {
-		pruned = append(pruned, p.apply(t, child)...)
+		pruned = append(pruned, p.apply(t, child, b)...)
 	}
 
 	if p.RemoveKeepChildren(t, n) {
 		return pruned
 	}
 
-	return []Node{t.NewNode(t.DataOf(n), pruned)}
+	return []Builder[Data]{
+		b.Tree(t.DataOf(n), pruned),
+	}
 }

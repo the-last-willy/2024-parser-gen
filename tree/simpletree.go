@@ -83,6 +83,10 @@ func (t SimpleTree[Data]) ConvertTo(other Builder[Data]) Builder[Data] {
 	panic("not implemented")
 }
 
+func (t SimpleTree[Data]) Empty() Builder[Data] {
+	return NewSimpleTree[Data]()
+}
+
 func (t SimpleTree[Data]) For(tr Tree[Data]) Builder[Data] {
 	if simpleTree, ok := tr.(SimpleTree[Data]); ok {
 		return simpleTree
