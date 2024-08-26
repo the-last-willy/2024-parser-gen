@@ -42,11 +42,11 @@ func (p *Parser) typeOf(n tree.Node) string {
 }
 
 func (p *Parser) findAllWithType(n tree.Node, ty string) []tree.Node {
-	return parse.FindAllWithType(p.Grammar.WithRoot(n), ty)
+	return parse.FindAllWithType(tree.NewSubTree(p.Grammar, n), ty)
 }
 
 func (p *Parser) findFirstWithType(n tree.Node, ty string) *tree.Node {
-	return parse.FindFirstWithType(p.Grammar.WithRoot(n), ty)
+	return parse.FindFirstWithType(tree.NewSubTree(p.Grammar, n), ty)
 }
 
 func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parser {

@@ -1,23 +1,23 @@
 package tree
 
-func FindAll[Data any](t Tree[Data], pred func(Tree[Data]) bool) []Node {
+func FindAll[Data any](st SubTree[Data], pred func(SubTree[Data]) bool) []Node {
 	found := []Node{}
-	if pred(t) {
-		found = append(found, t.Root())
+	if pred(st) {
+		found = append(found, st.Root())
 	}
-	for _, c := range t.ChildrenOf(t.Root()) {
-		found = append(found, FindAll(t.WithRoot(c), pred)...)
+	for _, c := range st.ChildrenOf(st.Root()) {
+		found = append(found, FindAll(st.WithRoot(c), pred)...)
 	}
 	return found
 }
 
-func FindFirst[Data any](t Tree[Data], pred func(Tree[Data]) bool) *Node {
-	if pred(t) {
-		r := t.Root()
+func FindFirst[Data any](st SubTree[Data], pred func(SubTree[Data]) bool) *Node {
+	if pred(st) {
+		r := st.Root()
 		return &r
 	}
-	for _, c := range t.ChildrenOf(t.Root()) {
-		f := FindFirst(t.WithRoot(c), pred)
+	for _, c := range st.ChildrenOf(st.Root()) {
+		f := FindFirst(st.WithRoot(c), pred)
 		if f != nil {
 			return f
 		}

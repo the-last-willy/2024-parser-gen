@@ -11,9 +11,9 @@ type TreeData struct {
 	Last  int
 }
 
-func HasTypePred(ty string) func(tree.Tree[TreeData]) bool {
-	return func(tr tree.Tree[TreeData]) bool {
-		return tr.DataOf(tr.Root()).Type == ty
+func HasTypePred(ty string) func(tree.SubTree[TreeData]) bool {
+	return func(st tree.SubTree[TreeData]) bool {
+		return st.DataOf(st.Root()).Type == ty
 	}
 }
 
@@ -30,10 +30,10 @@ func TypeOf(t tree.Tree[TreeData], n tree.Node) string {
 	return t.DataOf(n).Type
 }
 
-func FindAllWithType(t tree.Tree[TreeData], ty string) []tree.Node {
-	return tree.FindAll(t, HasTypePred(ty))
+func FindAllWithType(st tree.SubTree[TreeData], ty string) []tree.Node {
+	return tree.FindAll(st, HasTypePred(ty))
 }
 
-func FindFirstWithType(t tree.Tree[TreeData], ty string) *tree.Node {
-	return tree.FindFirst(t, HasTypePred(ty))
+func FindFirstWithType(st tree.SubTree[TreeData], ty string) *tree.Node {
+	return tree.FindFirst(st, HasTypePred(ty))
 }
