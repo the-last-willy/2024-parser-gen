@@ -5,6 +5,7 @@ import (
 	"os"
 	"parsium/format/mckeeman"
 	"parsium/parse"
+	"parsium/tree"
 )
 
 func main() {
@@ -23,10 +24,12 @@ func main() {
 	//file.WriteString(f.Format(tr, string(src)))
 
 	p2 := mckeeman.NewParser()
-	tr2 := p2.Parse(string(src))
+	b2 := p2.Parse(string(src), tree.NewSimpleTree[parse.TreeData]()).(tree.SimpleTree[parse.TreeData])
+
+	tr2 := b2.Build()
 
 	pd := mckeeman.NewSimplifier()
-	tr2 = pd.Process(tr2)
+	tr2 = *pd.Process(tr2).(*tree.SimpleTree[parse.TreeData])
 
 	pf := parse.TreeFormatter{}
 	fmt.Println(pf.Format(tr2, string(src)))

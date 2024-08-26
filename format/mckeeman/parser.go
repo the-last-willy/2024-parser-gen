@@ -9,10 +9,10 @@ import (
 
 type parseResult struct {
 	last  int
-	nodes []tree.Node
+	nodes []tree.Builder[parse.TreeData]
 }
 
-func (r parseResult) Single() tree.Node {
+func (r parseResult) Single() tree.Builder[parse.TreeData] {
 	if len(r.nodes) == 1 {
 		return r.nodes[0]
 	}
@@ -22,6 +22,8 @@ func (r parseResult) Single() tree.Node {
 type Parser struct {
 	Grammar      tree.Tree[parse.TreeData]
 	GrammarStore string
+
+	Builder tree.Builder[parse.TreeData]
 
 	// name to rule node
 	Rules map[string]tree.Node
@@ -45,21 +47,6 @@ func (p *Parser) findAllWithType(n tree.Node, ty string) []tree.Node {
 
 func (p *Parser) findFirstWithType(n tree.Node, ty string) *tree.Node {
 	return parse.FindFirstWithType(p.Grammar.WithRoot(n), ty)
-}
-
-func (p *Parser) newLeaf(ty string, first, last int) tree.Node {
-	return p.newNode(ty, first, last, []tree.Node{})
-}
-
-func (p *Parser) newNode(ty string, first, last int, children []tree.Node) tree.Node {
-	return p.Grammar.NewNode(
-		parse.TreeData{
-			Type:  ty,
-			First: first,
-			Last:  last,
-		},
-		children,
-	)
 }
 
 func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parser {
@@ -101,10 +88,11 @@ func NewParser() *Parser {
 	return NewParserForGrammar(grammarTree(), grammarSource)
 }
 
-func (p *Parser) Parse(s string) tree.Tree[parse.TreeData] {
+func (p *Parser) Parse(s string, b tree.Builder[parse.TreeData]) tree.Builder[parse.TreeData] {
+	p.Builder = b
 	start := p.findFirstWithType(p.Grammar.Root(), RuleType)
 	parsed := p.ParseRule(*start, s, 0)
-	return p.Grammar.WithRoot(parsed.nodes[0])
+	return parsed.Single()
 }
 
 func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
@@ -126,11 +114,13 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
 
 		return &parseResult{
 			last: alt.last,
-			nodes: []tree.Node{
-				p.newNode(
-					p.ruleToName[r],
-					cursor,
-					alt.last,
+			nodes: []tree.Builder[parse.TreeData]{
+				p.Builder.Tree(
+					parse.TreeData{
+						Type:  p.ruleToName[r],
+						First: cursor,
+						Last:  alt.last,
+					},
 					alt.nodes,
 				),
 			},
@@ -243,20 +233,15 @@ func (p *Parser) ParseRangeItem(item tree.Node, s string, cursor int) (count int
 			panic("ParseRangeItem: not an exclude")
 		}
 
-		var t *tree.Node
 		if cp := p.findFirstWithType(exclude, CodePointType); cp != nil {
-			count, ok := p.ParseCodePoint(*cp, s, cursor)
+			_, ok := p.ParseCodePoint(*cp, s, cursor)
 			if ok {
-				l := p.newLeaf("xxx", cursor, cursor+count)
-				t = &l
+				// Exclusion should not be parsed
+				return 0, false
 			}
 
 		} else if rng := p.findFirstWithType(exclude, "range"); rng != nil {
 			panic("ParseRangeItem: range exclude not implemented")
-		}
-		// Exclusion should not be parsed
-		if t != nil {
-			return 0, false
 		}
 	}
 

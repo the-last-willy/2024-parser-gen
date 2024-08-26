@@ -12,7 +12,7 @@ type Parser struct {
 
 func NewParser() *Parser {
 	mkParser := mckeeman.NewParser()
-	grammar := mkParser.Parse(mckeemanGrammar)
+	grammar := mkParser.Parse(mckeemanGrammar, tree.NewSimpleTree[parse.TreeData]()).(tree.SimpleTree[parse.TreeData])
 
 	return &Parser{
 		internal: mckeeman.NewParserForGrammar(grammar, mckeemanGrammar),
@@ -20,5 +20,5 @@ func NewParser() *Parser {
 }
 
 func (p *Parser) Parse(s string) tree.Tree[parse.TreeData] {
-	return p.internal.Parse(s)
+	return p.internal.Parse(s, tree.NewSimpleTree[parse.TreeData]()).(tree.SimpleTree[parse.TreeData])
 }
