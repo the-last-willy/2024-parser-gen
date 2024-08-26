@@ -16,6 +16,8 @@ type Tree[Data any] interface {
 	DataOf(Node) Data
 }
 
+// Helper functions
+
 func RootChildren[Data any](t Tree[Data]) []Node {
 	return t.ChildrenOf(t.Root())
 }
