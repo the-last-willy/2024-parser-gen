@@ -14,9 +14,6 @@ type Tree[Data any] interface {
 
 	ChildrenOf(Node) []Node
 	DataOf(Node) Data
-
-	// TODO Move to a tree builder ???
-	WithRoot(Node) Tree[Data]
 }
 
 func RootChildren[Data any](t Tree[Data]) []Node {

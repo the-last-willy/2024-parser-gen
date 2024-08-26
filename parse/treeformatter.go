@@ -8,7 +8,7 @@ import (
 type TreeFormatter struct {
 }
 
-func (f TreeFormatter) Format(tr tree.Tree[TreeData], src string) string {
+func (f TreeFormatter) Format(tr tree.SubTree[TreeData], src string) string {
 	r := tr.Root()
 	rd := tr.DataOf(r)
 	rc := tr.ChildrenOf(r)

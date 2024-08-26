@@ -34,11 +34,11 @@ type Parser struct {
 }
 
 func (p *Parser) textOf(n tree.Node) string {
-	return parse.TextOf(p.Grammar.WithRoot(n), p.GrammarStore)
+	return parse.TextOf(tree.NewSubTree(p.Grammar, n), p.GrammarStore)
 }
 
 func (p *Parser) typeOf(n tree.Node) string {
-	return parse.TypeOf(p.Grammar, n)
+	return parse.TypeOf(tree.NewSubTree(p.Grammar, n))
 }
 
 func (p *Parser) findAllWithType(n tree.Node, ty string) []tree.Node {

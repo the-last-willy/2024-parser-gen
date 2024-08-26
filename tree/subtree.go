@@ -26,6 +26,10 @@ func (st SubTree[Data]) DataOf(n Node) Data {
 	return st.tree.DataOf(n)
 }
 
+func (st SubTree[Data]) IsEmpty() bool {
+	return st.tree.IsEmpty()
+}
+
 func (st SubTree[Data]) Root() Node {
 	return st.root
 }

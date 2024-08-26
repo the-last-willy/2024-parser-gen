@@ -17,17 +17,17 @@ func HasTypePred(ty string) func(tree.SubTree[TreeData]) bool {
 	}
 }
 
-func DataOf(t tree.Tree[TreeData]) TreeData {
-	return t.DataOf(t.Root())
+func DataOf(st tree.SubTree[TreeData]) TreeData {
+	return st.DataOf(st.Root())
 }
 
-func TextOf(t tree.Tree[TreeData], src string) string {
-	d := DataOf(t)
+func TextOf(st tree.SubTree[TreeData], src string) string {
+	d := DataOf(st)
 	return src[d.First:d.Last]
 }
 
-func TypeOf(t tree.Tree[TreeData], n tree.Node) string {
-	return t.DataOf(n).Type
+func TypeOf(st tree.SubTree[TreeData]) string {
+	return st.DataOf(st.Root()).Type
 }
 
 func FindAllWithType(st tree.SubTree[TreeData], ty string) []tree.Node {

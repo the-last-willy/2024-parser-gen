@@ -32,7 +32,7 @@ func main() {
 	tr2 = *pd.Process(tr2).(*tree.SimpleTree[parse.TreeData])
 
 	pf := parse.TreeFormatter{}
-	fmt.Println(pf.Format(tr2, string(src)))
+	fmt.Println(pf.Format(tree.NewSubTree(tr2, tr2.Root()), string(src)))
 
 	//res = mckeeman.Simplify(res)
 
