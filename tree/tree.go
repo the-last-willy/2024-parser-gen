@@ -15,9 +15,6 @@ type Tree[Data any] interface {
 	ChildrenOf(Node) []Node
 	DataOf(Node) Data
 
-	// TODO Remove, this one can't be functional
-	NewNode(data Data, children []Node) Node
-
 	// TODO Move to a tree builder ???
 	WithRoot(Node) Tree[Data]
 }
