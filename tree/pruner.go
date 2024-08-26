@@ -7,11 +7,11 @@ type Pruner[Data any] struct {
 }
 
 func (p *Pruner[Data]) Apply(t Tree[Data], b Builder[Data]) Builder[Data] {
-	if t.IsEmpty() {
+	if t.Root() == nil {
 		return b.Empty()
 	}
 
-	pruned := p.apply(t, t.Root(), b)
+	pruned := p.apply(t, *t.Root(), b)
 
 	if len(pruned) != 1 {
 		panic("Pruner.Apply: bad pruning")

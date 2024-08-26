@@ -6,11 +6,7 @@ type Node struct {
 }
 
 type Tree[Data any] interface {
-	// TODO optional return type
-	Root() Node
-
-	// TODO Remove
-	IsEmpty() bool
+	Root() *Node
 
 	ChildrenOf(Node) []Node
 	DataOf(Node) Data
@@ -19,9 +15,9 @@ type Tree[Data any] interface {
 // Helper functions
 
 func RootChildren[Data any](t Tree[Data]) []Node {
-	return t.ChildrenOf(t.Root())
+	return t.ChildrenOf(*t.Root())
 }
 
 func RootData[Data any](t Tree[Data]) Data {
-	return t.DataOf(t.Root())
+	return t.DataOf(*t.Root())
 }

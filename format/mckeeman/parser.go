@@ -34,19 +34,19 @@ type Parser struct {
 }
 
 func (p *Parser) textOf(n tree.Node) string {
-	return parse.TextOf(tree.NewSubTree(p.Grammar, n), p.GrammarStore)
+	return parse.TextOf(tree.NewSubTree(p.Grammar, &n), p.GrammarStore)
 }
 
 func (p *Parser) typeOf(n tree.Node) string {
-	return parse.TypeOf(tree.NewSubTree(p.Grammar, n))
+	return parse.TypeOf(tree.NewSubTree(p.Grammar, &n))
 }
 
 func (p *Parser) findAllWithType(n tree.Node, ty string) []tree.Node {
-	return parse.FindAllWithType(tree.NewSubTree(p.Grammar, n), ty)
+	return parse.FindAllWithType(tree.NewSubTree(p.Grammar, &n), ty)
 }
 
 func (p *Parser) findFirstWithType(n tree.Node, ty string) *tree.Node {
-	return parse.FindFirstWithType(tree.NewSubTree(p.Grammar, n), ty)
+	return parse.FindFirstWithType(tree.NewSubTree(p.Grammar, &n), ty)
 }
 
 func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parser {
@@ -55,7 +55,7 @@ func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parse
 	p.Grammar = grammar
 	p.GrammarStore = store
 
-	rules := p.findAllWithType(grammar.Root(), RuleType)
+	rules := p.findAllWithType(*grammar.Root(), RuleType)
 
 	p.Rules = map[string]tree.Node{}
 	for _, rule := range rules {
@@ -65,7 +65,7 @@ func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parse
 	}
 
 	p.alternativeToItems = map[tree.Node][]tree.Node{}
-	for _, a := range p.findAllWithType(p.Grammar.Root(), AlternativeType) {
+	for _, a := range p.findAllWithType(*p.Grammar.Root(), AlternativeType) {
 		p.alternativeToItems[a] = p.findAllWithType(a, ItemType)
 	}
 
@@ -90,7 +90,7 @@ func NewParser() *Parser {
 
 func (p *Parser) Parse(s string, b tree.Builder[parse.TreeData]) tree.Builder[parse.TreeData] {
 	p.Builder = b
-	start := p.findFirstWithType(p.Grammar.Root(), RuleType)
+	start := p.findFirstWithType(*p.Grammar.Root(), RuleType)
 	parsed := p.ParseRule(*start, s, 0)
 	return parsed.Single()
 }

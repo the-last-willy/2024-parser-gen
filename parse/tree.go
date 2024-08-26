@@ -13,12 +13,12 @@ type TreeData struct {
 
 func HasTypePred(ty string) func(tree.SubTree[TreeData]) bool {
 	return func(st tree.SubTree[TreeData]) bool {
-		return st.DataOf(st.Root()).Type == ty
+		return st.DataOf(*st.Root()).Type == ty
 	}
 }
 
 func DataOf(st tree.SubTree[TreeData]) TreeData {
-	return st.DataOf(st.Root())
+	return st.DataOf(*st.Root())
 }
 
 func TextOf(st tree.SubTree[TreeData], src string) string {
@@ -27,7 +27,7 @@ func TextOf(st tree.SubTree[TreeData], src string) string {
 }
 
 func TypeOf(st tree.SubTree[TreeData]) string {
-	return st.DataOf(st.Root()).Type
+	return st.DataOf(*st.Root()).Type
 }
 
 func FindAllWithType(st tree.SubTree[TreeData], ty string) []tree.Node {

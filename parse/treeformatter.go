@@ -9,7 +9,7 @@ type TreeFormatter struct {
 }
 
 func (f TreeFormatter) Format(tr tree.SubTree[TreeData], src string) string {
-	r := tr.Root()
+	r := *tr.Root()
 	rd := tr.DataOf(r)
 	rc := tr.ChildrenOf(r)
 
@@ -20,7 +20,7 @@ func (f TreeFormatter) Format(tr tree.SubTree[TreeData], src string) string {
 
 	children := ""
 	for _, child := range rc {
-		children += f.Format(tr.WithRoot(child), src)
+		children += f.Format(tr.WithRoot(&child), src)
 	}
 	children = tree.IndentStr(children, 1)
 

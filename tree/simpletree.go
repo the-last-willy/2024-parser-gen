@@ -26,8 +26,8 @@ func (t SimpleTree[Data]) Build() SimpleTree[Data] {
 // Tree interface
 
 // Root returns nil if the tree is empty.
-func (t SimpleTree[Data]) Root() Node {
-	return Node{
+func (t SimpleTree[Data]) Root() *Node {
+	return &Node{
 		Impl: t.root,
 	}
 }

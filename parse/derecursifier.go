@@ -11,7 +11,7 @@ func NewDerecursifier() *Derecursifier {
 
 func (d *Derecursifier) Process(t tree.Tree[TreeData], b tree.Builder[TreeData]) tree.Builder[TreeData] {
 	return b.Tree(
-		t.DataOf(t.Root()),
+		t.DataOf(*t.Root()),
 		d.process(tree.NewSubTree(t, t.Root()), b),
 	)
 }
@@ -20,7 +20,7 @@ func (d *Derecursifier) Process(t tree.Tree[TreeData], b tree.Builder[TreeData])
 func (d *Derecursifier) process(parent tree.SubTree[TreeData], b tree.Builder[TreeData]) []tree.Builder[TreeData] {
 	children := []tree.Builder[TreeData]{}
 	for _, childNode := range tree.RootChildren[TreeData](parent) {
-		child := parent.WithRoot(childNode)
+		child := parent.WithRoot(&childNode)
 		db := d.process(child, b)
 		if TypeOf(child) == TypeOf(parent) {
 			children = append(children, db...)
