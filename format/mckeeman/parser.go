@@ -26,6 +26,7 @@ type Parser struct {
 	// name to rule node
 	Rules map[string]tree.Node
 
+	alternativeToItems map[tree.Node][]tree.Node
 	ruleToAlternatives map[tree.Node][]tree.Node
 	ruleToName         map[tree.Node]string
 }
@@ -76,6 +77,11 @@ func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parse
 		p.Rules[p.GrammarStore[nd.First:nd.Last]] = rule
 	}
 
+	p.alternativeToItems = map[tree.Node][]tree.Node{}
+	for _, a := range p.findAllWithType(p.Grammar.Root(), AlternativeType) {
+		p.alternativeToItems[a] = p.findAllWithType(a, ItemType)
+	}
+
 	p.ruleToAlternatives = map[tree.Node][]tree.Node{}
 	for _, r := range p.Rules {
 		alternatives := p.findAllWithType(r, AlternativeType)
@@ -109,22 +115,29 @@ func (p *Parser) ParseRule(r tree.Node, s string, cursor int) *parseResult {
 	// Must parse any alternative
 	for _, alternative := range p.ruleToAlternatives[r] {
 		alt := p.ParseAlternative(alternative, s, cursor)
+
+		// Failed to parse alternative try next one
 		if alt == nil {
 			continue
 		}
 
-		nn := p.newNode(
-			p.ruleToName[r],
-			cursor,
-			alt.last,
-			alt.nodes,
-		)
+		// Succeeded to parse one alternative
+		// TODO Incomplete
 
 		return &parseResult{
-			last:  alt.last,
-			nodes: []tree.Node{nn},
+			last: alt.last,
+			nodes: []tree.Node{
+				p.newNode(
+					p.ruleToName[r],
+					cursor,
+					alt.last,
+					alt.nodes,
+				),
+			},
 		}
 	}
+
+	// Failed to parse all alternatives
 	return nil
 }
 
@@ -132,7 +145,6 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) *parseResul
 	if p.typeOf(a) != AlternativeType {
 		panic("not an alternative")
 	}
-	items := p.findAllWithType(a, ItemType)
 
 	res := parseResult{
 		last:  cursor,
@@ -140,7 +152,7 @@ func (p *Parser) ParseAlternative(a tree.Node, s string, cursor int) *parseResul
 	}
 
 	// Must parse all items
-	for _, item := range items {
+	for _, item := range p.alternativeToItems[a] {
 		res2 := p.ParseItem(item, s, res.last)
 		if res2 == nil {
 			return nil
