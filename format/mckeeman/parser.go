@@ -38,7 +38,7 @@ func (p *Parser) textOf(n tree.Node) string {
 }
 
 func (p *Parser) typeOf(n tree.Node) string {
-	return parse.TypeOf(p.Grammar.WithRoot(n))
+	return parse.TypeOf(p.Grammar, n)
 }
 
 func (p *Parser) findAllWithType(n tree.Node, ty string) []tree.Node {

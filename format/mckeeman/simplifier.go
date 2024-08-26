@@ -51,8 +51,9 @@ func NewSimplifier() *Simplifier {
 }
 
 func (s *Simplifier) Process(t tree.Tree[parse.TreeData]) tree.Tree[parse.TreeData] {
-	t = s.derecursifier.Process(t)
-	pruned := s.pruner.Apply(t, tree.NewSimpleTree[parse.TreeData]()).(tree.SimpleTree[parse.TreeData]).Build()
+	builder := tree.NewSimpleTree[parse.TreeData]()
+	t = s.derecursifier.Process(t, builder).(tree.SimpleTree[parse.TreeData]).Build()
+	pruned := s.pruner.Apply(t, builder).(tree.SimpleTree[parse.TreeData]).Build()
 	t = &pruned
 	return t
 }

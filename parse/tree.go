@@ -26,8 +26,8 @@ func TextOf(t tree.Tree[TreeData], src string) string {
 	return src[d.First:d.Last]
 }
 
-func TypeOf(t tree.Tree[TreeData]) string {
-	return t.DataOf(t.Root()).Type
+func TypeOf(t tree.Tree[TreeData], n tree.Node) string {
+	return t.DataOf(n).Type
 }
 
 func FindAllWithType(t tree.Tree[TreeData], ty string) []tree.Node {
