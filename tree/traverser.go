@@ -8,6 +8,8 @@ const (
 	TraverserStop
 )
 
+// TODO Should iterate edges instead
+// Enter, Exit, how to handle root ?
 type Traverser[Data any] struct {
 	Enter  func(SubTree[Data]) TraverserCommand
 	Branch func(SubTree[Data], int) TraverserCommand
