@@ -2,56 +2,40 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"parsium/format/mckeeman"
 	"parsium/parse"
+	"parsium/parse/lr"
 	"parsium/tree"
+	"slices"
 )
 
 func main() {
-	src, _ := os.ReadFile("/media/willy/Data/projects/parsium/assets/mckeeman.txt")
-	//
-	//p := mckeeman.NewParser()
-	//res := p.Parse(string(src))
-	//
-	//res.Root = res.Root.Derecursified()
-	//res = mckeeman.Simplify(res)
-	//
-	//tr := tree.NewSimpleTree[parse.TreeData]().AsTree()
-	//tr = tr.WithRoot(res.Root.ToTreeNode(tr))
-	//f := parse.TreeFormatter{}
-	//file, _ := os.Create("tree.txt")
-	//file.WriteString(f.Format(tr, string(src)))
+	parser := lr.Parser{
+		ParseStack: nil,
+		Cursor:     0,
+	}
+	_ = parser
 
-	p2 := mckeeman.NewParser()
-	b2 := p2.Parse(string(src), tree.NewSimpleTree[parse.TreeData]()).(tree.SimpleTree[parse.TreeData])
+	source := "A*2+1\x00"
 
-	tr2 := b2.Build()
+	for _, r := range []rune(source) {
+		parser.Process(r)
+	}
 
-	pd := mckeeman.NewSimplifier()
-	tr2 = *pd.Process(tr2).(*tree.SimpleTree[parse.TreeData])
+	slices.Reverse(parser.ParseStack)
 
-	pf := parse.TreeFormatter{}
-	fmt.Println(pf.Format(tree.NewSubTree(tr2, tr2.Root()), string(src)))
+	tr := tree.NewSimpleTree2[parse.TreeData](
+		&parse.TreeData{
+			Type:  "root",
+			First: 0,
+			Last:  0,
+		},
+		parser.ParseStack...,
+	)
 
-	//res = mckeeman.Simplify(res)
+	derec := parse.NewDerecursifier()
+	_ = derec
+	//tr = derec.Process(tr, tr).(tree.SimpleTree[parse.TreeData])
 
-	//nw := tree.NewSimpleTree[parse.TreeData]().AsTree()
-	//nw = nw.WithRoot(res.Root.ToTreeNode(nw))
-
-	//pf := parse.TreeFormatter{}
-	//fmt.Println(pf.Format(nw, string(src)))
-
-	//file, _ := os.Create("out.txt")
-	//
-	//gfmt := tree.GoFormatter[parse.TreeData]{}
-	//gfmt.FormatData = func(i parse.TreeData) string {
-	//	return fmt.Sprintf(`TreeData{
-	// Type:  "%s",
-	// First: %d,
-	// Last:  %d,
-	//}`,
-	//		i.Type, i.First, i.Last)
-	//}
-	//_, _ = file.WriteString(gfmt.Format(tr))
+	formatter := parse.TreeFormatter{}
+	fmt.Println(formatter.Format(tr, source))
 }

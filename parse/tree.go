@@ -26,7 +26,7 @@ func TextOf(st tree.SubTree[TreeData], src string) string {
 	return src[d.First:d.Last]
 }
 
-func TypeOf(st tree.SubTree[TreeData]) string {
+func TypeOf(st tree.Tree[TreeData]) string {
 	return st.DataOf(*st.Root()).Type
 }
 

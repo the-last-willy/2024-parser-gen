@@ -85,7 +85,7 @@ func NewParserForGrammar(grammar tree.Tree[parse.TreeData], store string) *Parse
 }
 
 func NewParser() *Parser {
-	return NewParserForGrammar(grammarTree(), grammarSource)
+	return NewParserForGrammar(GrammarTree(), GrammarSource)
 }
 
 func (p *Parser) Parse(s string, b tree.Builder[parse.TreeData]) tree.Builder[parse.TreeData] {

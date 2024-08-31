@@ -15,6 +15,21 @@ func NewSimpleTree[Data any]() SimpleTree[Data] {
 	return SimpleTree[Data]{}
 }
 
+func NewSimpleTree2[Data any](d *Data, children ...SimpleTree[Data]) SimpleTree[Data] {
+	if d == nil {
+		return SimpleTree[Data]{}
+	}
+
+	nodes := []simpleNode[Data]{}
+	for _, child := range children {
+		nodes = append(nodes, *child.root)
+	}
+
+	return SimpleTree[Data]{
+		root: &simpleNode[Data]{data: *d, children: nodes},
+	}
+}
+
 func (t SimpleTree[Data]) AsTree() Tree[Data] {
 	return t
 }
@@ -27,13 +42,10 @@ func (t SimpleTree[Data]) Build() SimpleTree[Data] {
 
 // Root returns nil if the tree is empty.
 func (t SimpleTree[Data]) Root() *Node {
-	return &Node{
-		Impl: t.root,
+	if t.root == nil {
+		return nil
 	}
-}
-
-func (t SimpleTree[Data]) IsEmpty() bool {
-	return false
+	return &Node{Impl: t.root}
 }
 
 func (t SimpleTree[Data]) ChildrenOf(n Node) []Node {
@@ -66,10 +78,6 @@ func (t SimpleTree[Data]) WithRoot(n Node) Tree[Data] {
 	return &SimpleTree[Data]{
 		root: n.Impl.(*simpleNode[Data]),
 	}
-}
-
-func (t SimpleTree[Data]) New(data Data, children []Node) Tree[Data] {
-	return t.WithRoot(t.NewNode(data, children))
 }
 
 // Builder interface

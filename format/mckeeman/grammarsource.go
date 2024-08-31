@@ -1,6 +1,6 @@
 package mckeeman
 
-const grammarSource = `grammar
+const GrammarSource = `grammar
     rules
 
 space

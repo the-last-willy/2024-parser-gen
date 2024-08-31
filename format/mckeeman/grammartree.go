@@ -5,7 +5,7 @@ import (
 	"parsium/tree"
 )
 
-func grammarTree() tree.Tree[parse.TreeData] {
+func GrammarTree() tree.Tree[parse.TreeData] {
 	t := tree.NewSimpleTree[parse.TreeData]()
 
 	r := t.NewNode(
