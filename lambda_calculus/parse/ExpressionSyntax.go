@@ -1,4 +1,4 @@
-package lambda_calculus
+package lambda_calculus_parse
 
 import (
 	"parsium/common/set"

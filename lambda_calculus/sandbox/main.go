@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"parsium/common"
 	"parsium/common/set"
-	lc "parsium/lambda_calculus"
+	parse2 "parsium/lambda_calculus/parse"
 	"parsium/parse"
 	"parsium/tree"
 )
@@ -12,8 +12,8 @@ import (
 func main() {
 	src := `\  a.\b.c`
 
-	lexer := lc.NewLexer()
-	parser := lc.NewParser()
+	lexer := parse2.NewLexer()
+	parser := parse2.NewParser()
 
 	builders := []tree.SimpleTree[parse.TreeData]{}
 
@@ -57,6 +57,6 @@ func main() {
 	formatter := parse.TreeFormatter{}
 	fmt.Println(formatter.Format(tr, src))
 
-	fmt.Println(set.ToSlice[string](lc.ExpressionBoundVariables(tr, src)))
-	fmt.Println(set.ToSlice[string](lc.ExpressionFreeVariables(tr, src)))
+	fmt.Println(set.ToSlice[string](parse2.ExpressionBoundVariables(tr, src)))
+	fmt.Println(set.ToSlice[string](parse2.ExpressionFreeVariables(tr, src)))
 }

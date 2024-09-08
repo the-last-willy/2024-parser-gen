@@ -1,9 +1,8 @@
-package lambda_calculus_test
+package lambda_calculus_parse
 
 import (
 	"fmt"
 	"parsium/assert"
-	lc "parsium/lambda_calculus"
 	"parsium/parse"
 	"testing"
 )
@@ -25,21 +24,21 @@ func process(parser *parse.Lexer, input string) parse.TreeData {
 
 func TestLexer(t *testing.T) {
 	t.Run("Process '\\'", func(t *testing.T) {
-		l := lc.NewLexer()
+		l := NewLexer()
 		l.Output = func(token parse.TreeData) {
 			assert.Equal(t, token.Type, "\\")
 		}
 		l.Process('\\')
 	})
 	t.Run("Process '('", func(t *testing.T) {
-		l := lc.NewLexer()
+		l := NewLexer()
 		l.Output = func(token parse.TreeData) {
 			assert.Equal(t, token.Type, "(")
 		}
 		l.Process('(')
 	})
 	t.Run("Output name", func(t *testing.T) {
-		l := lc.NewLexer()
+		l := NewLexer()
 		token := process(l, "abc")
 		assert.Equal(t, token, parse.TreeData{
 			Type:  "name",
@@ -50,7 +49,7 @@ func TestLexer(t *testing.T) {
 }
 
 func TestLexerSandbox(t *testing.T) {
-	lexer := lc.NewLexer()
+	lexer := NewLexer()
 	lexer.Output = func(token parse.TreeData) {
 		fmt.Println(token)
 	}

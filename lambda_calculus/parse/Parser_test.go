@@ -1,9 +1,9 @@
-package lambda_calculus_test
+package lambda_calculus_parse_test
 
 import (
 	"fmt"
 	"parsium/assert"
-	"parsium/lambda_calculus"
+	parse2 "parsium/lambda_calculus/parse"
 	"parsium/parse"
 	"testing"
 )
@@ -24,7 +24,7 @@ func parserProcess(p *parse.BottomUpParser, tokens ...string) []parse.TreeData {
 
 func TestParser(t *testing.T) {
 	t.Run("Output expr for app", func(t *testing.T) {
-		parser := lambda_calculus.NewParser()
+		parser := parse2.NewParser()
 		results := parserProcess(parser, "app")
 		assert.SliceContain(t, results, parse.TreeData{
 			Type:  "expr",
@@ -33,7 +33,7 @@ func TestParser(t *testing.T) {
 		})
 	})
 	t.Run("Output expr for fun", func(t *testing.T) {
-		parser := lambda_calculus.NewParser()
+		parser := parse2.NewParser()
 		results := parserProcess(parser, "fun")
 		assert.SliceContain(t, results, parse.TreeData{
 			Type:  "expr",
@@ -42,7 +42,7 @@ func TestParser(t *testing.T) {
 		})
 	})
 	t.Run("Output expr for name", func(t *testing.T) {
-		parser := lambda_calculus.NewParser()
+		parser := parse2.NewParser()
 		results := parserProcess(parser, "name")
 		assert.SliceContain(t, results, parse.TreeData{
 			Type:  "expr",
@@ -51,7 +51,7 @@ func TestParser(t *testing.T) {
 		})
 	})
 	t.Run("Output app", func(t *testing.T) {
-		parser := lambda_calculus.NewParser()
+		parser := parse2.NewParser()
 		results := parserProcess(parser, "(", "expr", "expr", ")")
 		assert.SliceContain(t, results, parse.TreeData{
 			Type:  "app",
@@ -60,7 +60,7 @@ func TestParser(t *testing.T) {
 		})
 	})
 	t.Run("Output fun", func(t *testing.T) {
-		parser := lambda_calculus.NewParser()
+		parser := parse2.NewParser()
 		results := parserProcess(parser, "\\", "name", ".", "expr")
 		assert.SliceContain(t, results, parse.TreeData{
 			Type:  "fun",
@@ -70,7 +70,7 @@ func TestParser(t *testing.T) {
 	})
 
 	t.Run("Output fun 2", func(t *testing.T) {
-		parser := lambda_calculus.NewParser()
+		parser := parse2.NewParser()
 		results := parserProcess(parser, "\\", "name", ".", "name")
 		fmt.Print(parser.Stack)
 		assert.SliceContain(t, results, parse.TreeData{

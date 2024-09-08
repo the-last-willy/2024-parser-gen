@@ -1,6 +1,6 @@
 package lambda_calculus
 
-func AlphaConvert(e Expression, before, after string) Expression {
+func AlphaConvert(e Expression, before, after Name) Expression {
 	switch e.(type) {
 	case Application:
 		return alphaConvertApplication(e.(Application), before, after)
@@ -13,40 +13,23 @@ func AlphaConvert(e Expression, before, after string) Expression {
 	}
 }
 
-func alphaConvertApplication(a Application, before, after string) Application {
+func alphaConvertApplication(a Application, before, after Name) Application {
 	fun := AlphaConvert(a.Function, before, after)
 	arg := AlphaConvert(a.Argument, before, after)
-
-	if a.Function == fun && a.Argument == arg {
-		return a
-	}
-
-	return Application{
-		Function: fun,
-		Argument: arg,
-	}
+	return ReuseApplication(a, fun, arg)
 }
 
-func alphaConvertFunction(f Function, before, after string) Function {
-	bv := f.BoundVariable
-
+func alphaConvertFunction(f Function, before, after Name) Function {
+	bv := alphaConvertName(f.BoundVariable, before, after)
 	expr := AlphaConvert(f.Expression, before, after)
-
-	if f.BoundVariable == bv && f.Expression == expr {
-		return f
-	}
-
-	return Function{
-		BoundVariable: bv,
-		Expression:    expr,
-	}
+	return ReuseFunction(f, bv, expr)
 }
 
-func alphaConvertName(n Name, before, after string) Name {
-	if string(n) == after {
+func alphaConvertName(n Name, before, after Name) Name {
+	if n == after {
 		panic("AlphaConvert: name collision")
 	}
-	if string(n) == before {
+	if n == before {
 		return Name(after)
 	}
 	return n
