@@ -11,20 +11,20 @@ const (
 // TODO Should iterate edges instead
 // Enter, Exit, how to handle root ?
 type Traverser[Data any] struct {
-	Enter  func(SubTree[Data]) TraverserCommand
-	Branch func(SubTree[Data], int) TraverserCommand
-	Exit   func(SubTree[Data]) TraverserCommand
+	Enter  func(Tree[Data]) TraverserCommand
+	Branch func(Tree[Data], int) TraverserCommand
+	Exit   func(Tree[Data]) TraverserCommand
 }
 
 func NewTraverser[Data any]() *Traverser[Data] {
 	return &Traverser[Data]{
-		Enter: func(s SubTree[Data]) TraverserCommand {
+		Enter: func(s Tree[Data]) TraverserCommand {
 			return TraverserContinue
 		},
-		Branch: func(s SubTree[Data], i int) TraverserCommand {
+		Branch: func(Tree[Data], int) TraverserCommand {
 			return TraverserContinue
 		},
-		Exit: func(s SubTree[Data]) TraverserCommand {
+		Exit: func(Tree[Data]) TraverserCommand {
 			return TraverserContinue
 		},
 	}
